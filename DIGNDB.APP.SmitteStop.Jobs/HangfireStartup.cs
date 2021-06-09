@@ -33,7 +33,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs
 {
     public class HangfireStartup
     {
-        private HangfireConfig _hangfireConfig { get; set; }
+        private HangfireConfig HangFireConfig { get; set; }
 
         private IConfiguration _configuration { get; }
 
@@ -56,12 +56,20 @@ namespace DIGNDB.APP.SmitteStop.Jobs
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            _hangfireConfig = _configuration.Get<HangfireConfig>();
+            HangFireConfig = _configuration.Get<HangfireConfig>();
             services.Configure<HangfireConfig>(_configuration);
-            ModelValidator.ValidateContract(_hangfireConfig);
-            var gateWayConfig = _hangfireConfig.EuGateway;
+            ModelValidator.ValidateContract(HangFireConfig);
+            int DelayInSecondsByAttemptFunc(long attempt) => HangFireConfig.JobsRetryInterval;
+            GlobalJobFilters.Filters.Add(
+                new AutomaticRetryAttribute
+                {
+                    Attempts = HangFireConfig.JobsMaxRetryAttempts,
+                    DelayInSecondsByAttemptFunc = DelayInSecondsByAttemptFunc
+                });
 
-            var _eventLogConfig = _hangfireConfig.Logging.EventLog;
+            var gateWayConfig = HangFireConfig.EuGateway;
+
+            var _eventLogConfig = HangFireConfig.Logging.EventLog;
             services.Configure<EventLogSettings>(config =>
             {
                 config.SourceName = _eventLogConfig.SourceName;
@@ -75,9 +83,9 @@ namespace DIGNDB.APP.SmitteStop.Jobs
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(typeof(CountryMapper));
 
-            services.AddHangfire(x => x.UseSqlServerStorage(_hangfireConfig.HangFireConnectionString));
+            services.AddHangfire(x => x.UseSqlServerStorage(HangFireConfig.HangFireConnectionString));
             services.AddDbContext<DigNDB_SmittestopContext>(opts =>
-                opts.UseSqlServer(_hangfireConfig.SmittestopConnectionString));
+                opts.UseSqlServer(HangFireConfig.SmittestopConnectionString));
             services.AddScoped<ISSIZipFolderHandlingService, SSIZipFolderHandlingService>();
             services.AddScoped<ITemporaryExposureKeyRepository, TemporaryExposureKeyRepository>();
             services.AddScoped<IDatabaseKeysValidationService, DatabaseKeysValidationService>();
@@ -102,10 +110,10 @@ namespace DIGNDB.APP.SmitteStop.Jobs
             services.AddScoped<IExposureKeyMapper, ExposureKeyMapper>();
             services.AddScoped<IFileSystem, FileSystem>();
             services.AddSingleton(gateWayConfig);
-            services.AddSingleton(_hangfireConfig.Jobs.UploadKeysToTheGateway);
-            services.AddSingleton(_hangfireConfig.TemporaryExposureKeyZipFilesSettings);
-            services.AddSingleton(_hangfireConfig.Jobs.ProcessSSIDataInFolder.ZipFolderProcessingConfig);
-            services.AddSingleton(_hangfireConfig.Jobs.ProcessSSIDataInFolder.ExcelParsingConfig);
+            services.AddSingleton(HangFireConfig.Jobs.UploadKeysToTheGateway);
+            services.AddSingleton(HangFireConfig.TemporaryExposureKeyZipFilesSettings);
+            services.AddSingleton(HangFireConfig.Jobs.ProcessSSIDataInFolder.ZipFolderProcessingConfig);
+            services.AddSingleton(HangFireConfig.Jobs.ProcessSSIDataInFolder.ExcelParsingConfig);
 
             services.AddScoped<IEncodingService, EncodingService>();
             services.AddScoped<ISignatureService, SignatureService>();
@@ -135,7 +143,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(_hangfireConfig.LogsPath);
+            loggerFactory.AddFile(HangFireConfig.LogsPath);
 
             if (env.IsDevelopment())
             {
@@ -156,7 +164,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs
                 endpoints.MapControllers();
             });
 
-            ScheduledJobsConfiguration.ConfigureScheduledJobs(_hangfireConfig);
+            ScheduledJobsConfiguration.ConfigureScheduledJobs(HangFireConfig);
         }
     }
 }
