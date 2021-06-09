@@ -3,9 +3,10 @@ using FederationGatewayApi.Contracts;
 using FederationGatewayApi.Mappers;
 using FederationGatewayApi.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using System;
-
 
 namespace DIGNDB.App.SmitteStop.Testing.ServiceTest.Gateway
 {
@@ -23,7 +24,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest.Gateway
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
             var automapper = serviceProvider.GetService<IMapper>();
-            WebContextReader = new GatewayWebContextReader(automapper);
+            var loggerGatewayWebContextReader = new Mock<ILogger<IGatewayWebContextReader>>();
+            WebContextReader = new GatewayWebContextReader(automapper, loggerGatewayWebContextReader.Object);
             WebContextMock = new WebContextMock();
         }
 

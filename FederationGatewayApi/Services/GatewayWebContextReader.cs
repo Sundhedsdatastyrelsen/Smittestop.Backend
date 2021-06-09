@@ -13,9 +13,9 @@ namespace FederationGatewayApi.Services
     public class GatewayWebContextReader : IGatewayWebContextReader
     {
         private readonly IMapper _mapper;
-        private readonly ILogger<GatewayWebContextReader> _logger;
+        private readonly ILogger<IGatewayWebContextReader> _logger;
 
-        public GatewayWebContextReader(IMapper mapper, ILogger<GatewayWebContextReader> logger)
+        public GatewayWebContextReader(IMapper mapper, ILogger<IGatewayWebContextReader> logger)
         {
             _mapper = mapper;
             _logger = logger;
