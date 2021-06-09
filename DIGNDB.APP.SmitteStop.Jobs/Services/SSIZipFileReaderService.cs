@@ -21,6 +21,9 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
 {
     public class SSIZipFileReaderService : ISSIZipFileReaderService
     {
+        public const string VaccinationZipFileReadErrorMessage = "Covid statistics: There was a problem reading vaccine numbers from on of the excel files";
+        public const string StatisticsZipFileReadErrorMessage = "Covid statistics: There was a problem when reading statistics number from one of the excel files";
+
         private readonly ISSIStatisticsRepository _ssiStatisticsRepository;
         private readonly ISSIStatisticsVaccinationRepository _ssiStatisticsVaccinationRepository;
         private readonly ILoggerAdapter<SSIZipFileReaderService> _logger;
@@ -203,8 +206,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                     var errorMessageUtf8 = $"| Process SSI file job exception | second exception using encoding UTF8:\n {exUtf8.Message} - {exUtf8.StackTrace}";
                     var combined = new Exception($"{errorMessage1252}\n{errorMessageUtf8}");
                     
-                    var errorMessage = "Covid statistics: There was a problem reading vaccine numbers from on of the excel files";
-                    var exception = new SSIZipFileParseException(errorMessage, combined);
+                    var exception = new SSIZipFileParseException(VaccinationZipFileReadErrorMessage, combined);
 
                     _logger.LogError(exception.Message);
 
@@ -252,8 +254,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                     var errorMessageUtf8 = $"| Process SSI file job exception | second exception using encoding UTF8:\n {exUtf8.Message} - {exUtf8.StackTrace}";
                     var combined = new Exception($"{errorMessage1252}\n{errorMessageUtf8}");
                     
-                    var errorMessage = "Covid statistics: There was a problem when reading statistics number from one of the excel files";
-                    var exception = new SSIZipFileParseException(errorMessage, combined);
+                    var exception = new SSIZipFileParseException(StatisticsZipFileReadErrorMessage, combined);
 
                     _logger.LogError(exception.Message);
 

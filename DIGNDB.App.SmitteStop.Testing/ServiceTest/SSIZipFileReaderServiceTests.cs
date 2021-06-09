@@ -461,7 +461,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
 
             // Assert
             var exception = Assert.Throws<SSIZipFileParseException>(() => service.HandleSsiVaccinationZipArchive(zipInfos));
-            Assert.That(exception.Message.Contains("Covid statistics: There was a problem reading vaccine numbers from the excel files"));
+            Assert.That(exception.Message.Contains(SSIZipFileReaderService.VaccinationZipFileReadErrorMessage));
         }
 
         [Test]
@@ -478,7 +478,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
 
             // Assert
             var exception = Assert.Throws<SSIZipFileParseException>(() => service.HandleSsiVaccinationZipArchive(zipInfos));
-            Assert.That(exception.Message.Contains("Covid statistics: There was a problem reading vaccine numbers from the excel files"));
+            Assert.That(exception.Message.Contains(SSIZipFileReaderService.VaccinationZipFileReadErrorMessage));
         }
         [TestCaseSource(nameof(GetNullDtoArguments))]
         public void HandleSsiStatisticsZipArchive_NullArgumentPassed_ShouldThrowArgumentException(SSIZipArchivesInfoDto zipInfos)
