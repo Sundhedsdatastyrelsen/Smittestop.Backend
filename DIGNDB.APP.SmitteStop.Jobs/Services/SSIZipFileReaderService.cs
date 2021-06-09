@@ -26,11 +26,11 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
         private readonly ILoggerAdapter<SSIZipFileReaderService> _logger;
         private readonly SSIExcelParsingConfig _config;
 
-        private DateTime _zipDateSSIInfection;
         private DateTime _zipDateSSIVaccination;
         private const int DeleteOldEntriesAfterDays = 30;
 
-        public const int VaccinationEncoding = 1252;
+        public const int VaccinationEncoding1252 = 1252;
+        public Encoding VaccinationEncodingUtf8 = Encoding.UTF8;
 
         public SSIZipFileReaderService(ISSIStatisticsRepository ssiStatisticsRepository, ISSIStatisticsVaccinationRepository ssiStatisticsVaccinationRepository, SSIExcelParsingConfig config, ILoggerAdapter<SSIZipFileReaderService> logger)
         {
@@ -56,7 +56,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 
                 _ssiStatisticsVaccinationRepository.RemoveEntriesOlderThan(DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
 
-                var ssiStatisticsVaccination = ValidateAndBuildDatabaseEntryFromSSIVaccinationData(vaccinationPercentages);
+                var ssiStatisticsVaccination = ValidateAndBuildDatabaseEntryFromSsiVaccinationData(vaccinationPercentages);
 
                 var existingSsiStatistics = _ssiStatisticsVaccinationRepository.GetEntryByDate(ssiStatisticsVaccination.Date);
                 if (existingSsiStatistics != null)
@@ -92,7 +92,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
 
                 _ssiStatisticsRepository.RemoveEntriesOlderThan(DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
 
-                SSIStatistics ssiStatistics = SumStatisticsByColumn(statistics.Statistics);
+                var ssiStatistics = SumStatisticsByColumn(statistics.Statistics);
 
                 ssiStatistics.Date = zipArchivesInfo.DateInfection;
                 var existingSsiStatistics = _ssiStatisticsRepository.GetEntryByDate(ssiStatistics.Date);
@@ -137,11 +137,6 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             
             return ssiStatistics;
         }
-        private SSIStatisticsCsvDto GetDataFromInfectionZipArchive(ZipArchive zipArchive)
-        {
-            SSIZipContentDto zipContent = PopulateInfectionZipContent(zipArchive);
-            return RetrieveDataFromInfectionZipContent(zipContent);
-        }
 
         private SSIStatisticsCsvDto GetDataFromVaccinationZipArchive(ZipArchive zipArchive)
         {
@@ -153,24 +148,6 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
         {
             SSIZipContentDto zipContent = PopulateStatisticsZipContent(zipArchive);
             return RetrieveDataFromStatisticsZipContent(zipContent);
-        }
-
-        private SSIZipContentDto PopulateInfectionZipContent(ZipArchive zipArchive)
-        {
-            var zipContent = new SSIZipContentDto();
-            try
-            {
-                zipContent.DeathsOverTime = zipArchive.Entries.Single(x => x.FullName == _config.DeathsOverTime.FileName);
-                zipContent.NewlyAdmittedOverTime = zipArchive.Entries.Single(x => x.FullName == _config.NewlyAdmittedOverTime.FileName);
-                zipContent.TestPosOverTime = zipArchive.Entries.Single(x => x.FullName == _config.TestPosOverTime.FileName);
-                zipContent.Tested = zipArchive.Entries.Single(x => x.FullName == _config.Tested.FileName);
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new SSIZipFileParseException("Covid statistics: One of the excel files is missing in zip package for infection numbers", e);
-            }
-
-            return zipContent;
         }
 
         private SSIZipContentDto PopulateVaccinationZipContent(ZipArchive zipArchive)
@@ -205,7 +182,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
 
         private T RetrieveVaccinationDataFromZipEntry<T>(ZipArchiveEntry zipEntry, ClassMap<T> classMap)
         {
-            var encoding = CodePagesEncodingProvider.Instance.GetEncoding(VaccinationEncoding);
+            var encoding = CodePagesEncodingProvider.Instance.GetEncoding(VaccinationEncoding1252);
 
             try
             {
@@ -216,7 +193,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             {
                 try
                 {
-                    encoding = Encoding.UTF8;
+                    encoding = VaccinationEncodingUtf8;
                     var record = GetVaccineRecord(zipEntry, classMap, encoding);
                     return record;
 
@@ -249,77 +226,44 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             return record;
         }
 
-        private List<T> RetrieveDataFromZipEntry<T>(ZipArchiveEntry zipEntry, ClassMap<T> classMap)
-        {
-            try
-            {
-                using var csvStream = zipEntry.Open();
-                using var csvStreamReader = new StreamReader(csvStream);
-                using var csvContentReader = new CsvReader(csvStreamReader, new CultureInfo(_config.Culture));
-                csvContentReader.Configuration.RegisterClassMap(classMap);
-                csvContentReader.Configuration.PrepareHeaderForMatch =
-                    (header, _) => Regex.Replace(header, @"\s", string.Empty);
-                List<T> records = csvContentReader.GetRecords<T>().ToList();
-                return records;
-            }
-            catch (Exception e)
-            {
-                throw new SSIZipFileParseException(
-                    "Covid statistics: There was a problem when reading one of the excel files", e);
-            }
-        }
-
         private List<T> RetrieveDataFromZipEntry1252<T>(ZipArchiveEntry zipEntry, ClassMap<T> classMap)
         {
             try
             {
-                using var csvStream = zipEntry.Open();
-                using var csvStreamReader =
-                    new StreamReader(csvStream, CodePagesEncodingProvider.Instance.GetEncoding(1252));
-                using var csvContentReader = new CsvReader(csvStreamReader, new CultureInfo(_config.Culture));
-                csvContentReader.Configuration.RegisterClassMap(classMap);
-                csvContentReader.Configuration.PrepareHeaderForMatch =
-                    (header, _) => Regex.Replace(header, @"\s", string.Empty);
-                List<T> records = csvContentReader.GetRecords<T>().ToList();
+                var encoding = CodePagesEncodingProvider.Instance.GetEncoding(1252);
+                var records = GetCsvEntriesFromZipFile(zipEntry, classMap, encoding);
                 return records;
             }
-            catch (Exception e)
+            catch (Exception e1252)
             {
                 try
                 {
-                    using var csvStream = zipEntry.Open();
-                    using var csvStreamReader =
-                        new StreamReader(csvStream, Encoding.UTF8);
-                    using var csvContentReader = new CsvReader(csvStreamReader, new CultureInfo(_config.Culture));
-                    csvContentReader.Configuration.RegisterClassMap(classMap);
-                    csvContentReader.Configuration.PrepareHeaderForMatch =
-                        (header, _) => Regex.Replace(header, @"\s", string.Empty);
-                    List<T> records = csvContentReader.GetRecords<T>().ToList();
+                    var encoding = Encoding.UTF8;
+                    var records = GetCsvEntriesFromZipFile(zipEntry, classMap, encoding);
                     return records;
                 }
-
-                catch (Exception ex)
+                catch (Exception exUtf8)
                 {
+                    var errorMessage1252 = $"| Process SSI file job exception | first exception using encoding 1252:\n {e1252.Message} - {e1252.StackTrace}";
+                    var errorMessageUtf8 = $"| Process SSI file job exception | second exception using encoding UTF8:\n {exUtf8.Message} - {exUtf8.StackTrace}";
+                    var combined = new Exception($"{errorMessage1252}\n{errorMessageUtf8}");
                     throw new SSIZipFileParseException(
-                        "Covid statistics: There was a problem when reading one of the excel files", ex);
+                        "Covid statistics: There was a problem when reading one of the excel files", combined);
                 }
             }
         }
-    
 
-        private SSIStatisticsCsvDto RetrieveDataFromInfectionZipContent(SSIZipContentDto todayZipContent)
+        private List<T> GetCsvEntriesFromZipFile<T>(ZipArchiveEntry zipEntry, ClassMap<T> classMap, Encoding encoding)
         {
-            var deathsOverTimeDtoMap = new DeathsOverTimeDtoMap(_config);
-            var newlyAdmittedOverTimeDtoMap = new NewlyAdmittedOverTimeDtoMap(_config);
-            var testPosOverTimeDtoMap = new TestPosOverTimeDtoMap(_config);
-            var testRegionerDtoMap = new TestedExcelDtoMap(_config);
-            return new SSIStatisticsCsvDto
-            {
-                DeathsOverTime = RetrieveDataFromZipEntry(todayZipContent.DeathsOverTime, deathsOverTimeDtoMap),
-                NewlyAdmittedOverTime = RetrieveDataFromZipEntry(todayZipContent.NewlyAdmittedOverTime, newlyAdmittedOverTimeDtoMap),
-                TestPosOverTime = RetrieveDataFromZipEntry(todayZipContent.TestPosOverTime, testPosOverTimeDtoMap),
-                TestedExcel = RetrieveDataFromZipEntry(todayZipContent.Tested, testRegionerDtoMap)
-            };
+            using var csvStream = zipEntry.Open();
+            using var csvStreamReader = new StreamReader(csvStream, encoding);
+            using var csvContentReader = new CsvReader(csvStreamReader, new CultureInfo(_config.Culture));
+            csvContentReader.Configuration.RegisterClassMap(classMap);
+            csvContentReader.Configuration.PrepareHeaderForMatch =
+                (header, _) => Regex.Replace(header, @"\s", string.Empty);
+            var records = csvContentReader.GetRecords<T>();
+            var retVal = records.ToList();
+            return retVal;
         }
 
         private SSIStatisticsCsvDto RetrieveDataFromVaccinationZipContent(SSIZipContentDto todayZipContent)
@@ -347,58 +291,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             };
         }
 
-        private SSIStatistics ValidateAndBuildDatabaseEntryFromSSIInfectionData(SSIStatisticsCsvDto todayData, SSIStatisticsCsvDto yesterdayData)
-        {
-            try
-            {
-                var todayTotalDeaths = todayData.DeathsOverTime
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.Deaths).Single();
-                var yesterdayTotalDeaths = yesterdayData.DeathsOverTime
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.Deaths).Single();
-                var todayTotalTested = todayData.TestedExcel
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.Tested).Single();
-                var yesterdayTotalTested = yesterdayData.TestedExcel
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.Tested).Single();
-                var todayTotalConfirmedCases = todayData.TestPosOverTime
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.ConfirmedCases).Single();
-                var yesterdayTotalConfirmedCases = yesterdayData.TestPosOverTime
-                    .Where(x => _config.TotalColumnNames.Contains(x.DateString)).Select(x => x.ConfirmedCases).Single();
-                var todayAdmitted = todayData.NewlyAdmittedOverTime.Last().Hospitalized;
-
-                var atLeastOneCellIsMissingData =
-                    todayTotalConfirmedCases == -1 || yesterdayTotalConfirmedCases == -1 || todayTotalDeaths == -1 ||
-                    yesterdayTotalDeaths == -1 || todayTotalTested == -1 || yesterdayTotalTested == -1 ||
-                    todayAdmitted == -1;
-                
-                if (atLeastOneCellIsMissingData)
-                {
-                    throw new SSIZipFileParseException(
-                        "Covid statistics: Detected missing data in key cells used to calculate the results");
-                }
-
-                var ssiStatistics = new SSIStatistics
-                {
-                    ConfirmedCasesToday = todayTotalConfirmedCases - yesterdayTotalConfirmedCases,
-                    ConfirmedCasesTotal = todayTotalConfirmedCases,
-                    DeathsToday = todayTotalDeaths - yesterdayTotalDeaths,
-                    DeathsTotal = todayTotalDeaths,
-                    TestsConductedToday = todayTotalTested - yesterdayTotalTested,
-                    TestsConductedTotal = todayTotalTested,
-                    //PatientsAdmittedToday = todayAdmitted,
-                    Date = _zipDateSSIInfection
-                };
-
-                return ssiStatistics;
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new SSIZipFileParseException(
-                    "Covid statistics: Could not find entries used to build the statistics infection object in the database: " +
-                    "Could not find a string that indicate \"total\" column", e);
-            }
-        }
-
-        private SSIStatisticsVaccination ValidateAndBuildDatabaseEntryFromSSIVaccinationData(SSIStatisticsCsvDto vaccinationData)
+        private SSIStatisticsVaccination ValidateAndBuildDatabaseEntryFromSsiVaccinationData(SSIStatisticsCsvDto vaccinationData)
         {
             try
             {

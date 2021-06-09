@@ -32,6 +32,13 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Config
 
         [Required(AllowEmptyStrings = false)]
         public string LogsPath { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        public int JobsMaxRetryAttempts { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        public int JobsRetryInterval { get; set; }
+
     }
 
     public class JobsConfig
