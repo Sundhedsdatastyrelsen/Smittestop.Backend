@@ -189,22 +189,26 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 var record = GetVaccineRecord(zipEntry, classMap, encoding);
                 return record;
             }
-            catch (Exception e)
+            catch (Exception e1252)
             {
                 try
                 {
                     encoding = VaccinationEncodingUtf8;
                     var record = GetVaccineRecord(zipEntry, classMap, encoding);
                     return record;
-
                 }
-                catch (Exception)
+                catch (Exception exUtf8)
                 {
-                    var errorMessage = "Covid statistics: There was a problem reading vaccine numbers from the excel files";
-                    _logger.LogError(errorMessage);
+                    var errorMessage1252 = $"| Process SSI file job exception | first exception using encoding 1252:\n {e1252.Message} - {e1252.StackTrace}";
+                    var errorMessageUtf8 = $"| Process SSI file job exception | second exception using encoding UTF8:\n {exUtf8.Message} - {exUtf8.StackTrace}";
+                    var combined = new Exception($"{errorMessage1252}\n{errorMessageUtf8}");
+                    
+                    var errorMessage = "Covid statistics: There was a problem reading vaccine numbers from on of the excel files";
+                    var exception = new SSIZipFileParseException(errorMessage, combined);
 
-                    throw new SSIZipFileParseException(errorMessage, e);
+                    _logger.LogError(exception.Message);
 
+                    throw exception;
                 }
             }
         }
@@ -247,8 +251,13 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                     var errorMessage1252 = $"| Process SSI file job exception | first exception using encoding 1252:\n {e1252.Message} - {e1252.StackTrace}";
                     var errorMessageUtf8 = $"| Process SSI file job exception | second exception using encoding UTF8:\n {exUtf8.Message} - {exUtf8.StackTrace}";
                     var combined = new Exception($"{errorMessage1252}\n{errorMessageUtf8}");
-                    throw new SSIZipFileParseException(
-                        "Covid statistics: There was a problem when reading one of the excel files", combined);
+                    
+                    var errorMessage = "Covid statistics: There was a problem when reading statistics number from one of the excel files";
+                    var exception = new SSIZipFileParseException(errorMessage, combined);
+
+                    _logger.LogError(exception.Message);
+
+                    throw exception;
                 }
             }
         }
