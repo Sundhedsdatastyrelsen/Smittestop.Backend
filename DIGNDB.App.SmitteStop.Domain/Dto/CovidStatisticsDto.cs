@@ -5,6 +5,5 @@
         public SSIStatisticsDto SSIStatistics { get; set; }
         public SSIStatisticsVaccinationDto SsiStatisticsVaccination { get; set; }
         public AppStatisticsDto AppStatistics { get; set; }
-
     }
 }

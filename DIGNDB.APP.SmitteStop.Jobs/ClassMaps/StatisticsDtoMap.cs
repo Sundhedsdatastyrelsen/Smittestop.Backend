@@ -14,8 +14,8 @@ namespace DIGNDB.APP.SmitteStop.Jobs.ClassMaps
             Map(m => m.ChangedConfirmedCases).Name(config.CovidStatistics.ColumnNames[2]).TypeConverter<Int32Converter>();
             Map(m => m.ChangedDied).Name(config.CovidStatistics.ColumnNames[3]).TypeConverter<Int32Converter>();
             Map(m => m.NumberSamples).Name(config.CovidStatistics.ColumnNames[4]).TypeConverter<Int32Converter>();
-            Map(m => m.ChangedNumberSamples).Name(config.CovidStatistics.ColumnNames[5]).TypeConverter<Int32Converter>();
-
+            Map(m => m.ChangedNumberSamplesPcr).Name(config.CovidStatistics.ColumnNames[5]).TypeConverter<Int32Converter>();
+            Map(m => m.ChangedNumberSamplesAntigen).Name(config.CovidStatistics.ColumnNames[6]).TypeConverter<Int32Converter>();
         }
     }
 }
