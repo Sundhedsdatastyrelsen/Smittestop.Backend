@@ -7,6 +7,7 @@
         public int ChangedConfirmedCases { get; set; }
         public int ChangedDied { get; set; }
         public int NumberSamples { get; set; }
-        public int ChangedNumberSamples { get; set; }
+        public int ChangedNumberSamplesPcr { get; set; }
+        public int ChangedNumberSamplesAntigen { get; set; }
     }
 }

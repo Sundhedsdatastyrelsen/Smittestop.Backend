@@ -118,7 +118,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
 
         private SSIStatistics SumStatisticsByColumn(List<StatisticsDto> statistics)
         {
-            SSIStatistics ssiStatistics = new SSIStatistics()
+            SSIStatistics ssiStatistics = new SSIStatistics
             {
                 ConfirmedCasesToday = 0,
                 ConfirmedCasesTotal = 0,
@@ -127,16 +127,16 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 TestsConductedToday = 0,
                 TestsConductedTotal = 0,
             };
+
             foreach (StatisticsDto statisticsDto in statistics)
             {
                 ssiStatistics.ConfirmedCasesToday += statisticsDto.ChangedConfirmedCases;
                 ssiStatistics.ConfirmedCasesTotal += statisticsDto.ConfirmedCases;
                 ssiStatistics.DeathsToday += statisticsDto.ChangedDied;
                 ssiStatistics.DeathsTotal += statisticsDto.Died;
-                ssiStatistics.TestsConductedToday += statisticsDto.ChangedNumberSamples;
+                ssiStatistics.TestsConductedToday += statisticsDto.ChangedNumberSamplesPcr + statisticsDto.ChangedNumberSamplesAntigen;
                 ssiStatistics.TestsConductedTotal += statisticsDto.NumberSamples;
             }
-
             
             return ssiStatistics;
         }
