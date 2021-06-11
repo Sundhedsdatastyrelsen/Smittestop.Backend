@@ -8,6 +8,5 @@ namespace FederationGatewayApi.Contracts
     {
         string ReadHttpContextStream(HttpResponseMessage webContext);
         IList<TemporaryExposureKeyGatewayDto> GetItemsFromRequest(string responseBody);
-
     }
 }
