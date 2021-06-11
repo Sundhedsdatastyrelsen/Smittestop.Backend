@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Text.Json;
 
 namespace DIGNDB.App.SmitteStop.Testing.ServiceTest.Gateway
 {
@@ -23,26 +24,45 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest.Gateway
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            var automapper = serviceProvider.GetService<IMapper>();
+            var autoMapper = serviceProvider.GetService<IMapper>();
             var loggerGatewayWebContextReader = new Mock<ILogger<IGatewayWebContextReader>>();
-            WebContextReader = new GatewayWebContextReader(automapper, loggerGatewayWebContextReader.Object);
+            WebContextReader = new GatewayWebContextReader(autoMapper, loggerGatewayWebContextReader.Object);
             WebContextMock = new WebContextMock();
         }
 
         [Test]
         public void ReaderReadsObjectsBasedOnJSON()
         {
-            var mockResponseBody = WebContextMock.MockValidBodyJSON();
+            var mockResponseBody = WebContextMock.MockValidBodyJson();
             var keys = WebContextReader.GetItemsFromRequest(mockResponseBody);
+
             Assert.That(keys.Count > 0);
         }
 
         [Test]
-        public void ReaderReadsTheJSONContentFromHTTPRequest()
+        public void ReaderReadsObjectsBasedOnInvalidJson()
+        {
+            var mockResponseBody = WebContextMock.MockInvalidBodyJson();
+            
+            Assert.Throws<JsonException>(() => WebContextReader.GetItemsFromRequest(mockResponseBody));
+        }
+
+        [Test]
+        public void ReaderReadsObjectsBasedOnJsonForNoBatches()
+        {
+            var mockResponseBody = WebContextMock.MockNoBatchesBodyJson();
+            var keys = WebContextReader.GetItemsFromRequest(mockResponseBody);
+
+            Assert.That(keys.Count == 0);
+        }
+
+        [Test]
+        public void ReaderReadsTheJsonContentFromHttpRequest()
         {
             var mockResponse = WebContextMock.MockHttpResponse();
             var response = WebContextReader.ReadHttpContextStream(mockResponse);
-            Assert.AreEqual(response, WebContextMock.MockValidBodyJSON());
+
+            Assert.AreEqual(response, WebContextMock.MockValidBodyJson());
         }
     }
 }

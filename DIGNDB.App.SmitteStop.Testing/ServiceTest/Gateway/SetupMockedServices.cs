@@ -51,7 +51,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest.Gateway
                 if (responseMessage == null || responseMessage.RequestMessage == null)
                     throw new Exception();
                 else
-                    return _webContextMock.MockValidBodyJSON();
+                    return _webContextMock.MockValidBodyJson();
             });
         }
         public void SetupWebContextReaderMockWithBadContext(Mock<IGatewayWebContextReader> gatewayContextReader)
