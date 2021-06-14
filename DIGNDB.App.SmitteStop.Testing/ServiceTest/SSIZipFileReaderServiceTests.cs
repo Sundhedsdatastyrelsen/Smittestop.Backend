@@ -103,7 +103,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
                 CovidStatistics = new CovidStatistics
                 {
                     FileName = "Regionalt_DB/01_noegle_tal.csv",
-                    ColumnNames = new[] { "Bekræftede tilfælde", "Døde", "Ændring i antal bekræftede tilfælde", "Ændring i antal døde", "Antallet af prøver", "Ændring i antallet af PCR prøver", "Ændring i antallet af Antigen prøver" }
+                    ColumnNames = new[] { "Bekræftede tilfælde", "Døde", "Ændring i antal bekræftede tilfælde", "Ændring i antal døde", "test_totalAG", "Antallet af prøver", "Ændring i antallet af PCR prøver", "Ændring i antallet af Antigen prøver" }
                 }
             };
         }
@@ -113,7 +113,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             _expectedOutputInfection = new SSIStatistics
             {
                 ConfirmedCasesToday = 814,
-                TestsConductedTotal = 21074483,
+                TestsConductedTotal = 21074574,
                 ConfirmedCasesTotal = 225844,
                 Date = _sampleDateInfection,
                 DeathsToday = 5,
@@ -203,21 +203,21 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
                 "Dato;Region;Køn;Bekræftede tilfælde;Døde;Overstået infektion;Indlæggelser;" +
                 "Testede personer;Ændring i antal bekræftede tilfælde;Ændring i antal døde;" +
                 "Ændring i antal overstået infektion;Ændring i antal indlagte;Ændring i antallet af testede personer;" +
-                "Antallet af prøver;Ændring i antallet af PCR prøver;Ændring i antallet af Antigen prøver;test_AG;test_AG_diff",
+                "test_totalAG;Antallet af prøver;Ændring i antallet af PCR prøver;Ændring i antallet af Antigen prøver;test_AG;test_AG_diff",
                 // Data
-                "2021 - 03 - 25; Hovedstaden; F; 55023; 616; 52620; 3174; 774135; 196; 2; 110; 4; 821; 4260037; 34875; 11; 431685; 25298",
-                "2021 - 03 - 25; Hovedstaden; M; 51472; 670; 48838; 3287; 714278; 202; 0; 99; 6; 928; 3163653; 25134; 22; 409264; 23907",
-                "2021 - 03 - 25; Midtjylland; F; 19904; 149; 19208; 841; 514345; 60; 1; 40; 1; 673; 2495468; 21794; 33; 249400; 14289",
-                "2021 - 03 - 25; Midtjylland; M; 19065; 193; 18294; 1045; 482053; 47; 0; 39; 2; 815; 1832711; 14481; 44; 254993; 13952",
-                "2021 - 03 - 25; NA; ; 0; 0; 0; 0; 21; 0; 0; 0; 0; 0; 33; 0; 55; 0; 0",
-                "2021 - 03 - 25; NA; F; 655; 0; 635; 41; 16807; 2; 0; 5; 0; 76; 51777; 521; 66; 22313; 893",
-                "2021 - 03 - 25; NA; M; 1409; 2; 1326; 96; 29531; 14; 0; 11; 0; 164; 86101; 1003; 77; 57828; 2248",
-                "2021 - 03 - 25; Nordjylland; F; 7578; 69; 7308; 363; 243561; 17; 0; 8; 1; 162; 1294326; 10634; 88; 113454; 5581",
-                "2021 - 03 - 25; Nordjylland; M; 7544; 109; 7187; 456; 233603; 20; 0; 16; 1; 205; 953537; 6543; 99; 116243; 5379",
-                "2021 - 03 - 25; Sjælland; F; 16247; 172; 15608; 1048; 318192; 42; 0; 26; 1; 509; 1625652; 17068; 111; 165781; 10162",
-                "2021 - 03 - 25; Sjælland; M; 14906; 220; 14172; 1241; 295781; 49; 2; 32; 3; 542; 1170251; 11326; 122; 168652; 9929",
-                "2021 - 03 - 25; Syddanmark; F; 15910; 96; 14778; 726; 470277; 81; 0; 86; 6; 802; 2359197; 26026; 133; 288328; 32570",
-                "2021 - 03 - 25; Syddanmark; M; 16131; 113; 14948; 823; 443710; 84; 0; 77; 3; 856; 1781740; 18009; 144; 275814; 29153"
+                "2021 - 03 - 25; Hovedstaden; F; 55023; 616; 52620; 3174; 774135; 196; 2; 110; 4; 821; 1; 4260037; 34875; 11; 431685; 25298",
+                "2021 - 03 - 25; Hovedstaden; M; 51472; 670; 48838; 3287; 714278; 202; 0; 99; 6; 928; 2; 3163653; 25134; 22; 409264; 23907",
+                "2021 - 03 - 25; Midtjylland; F; 19904; 149; 19208; 841; 514345; 60; 1; 40; 1; 673; 3; 2495468; 21794; 33; 249400; 14289",
+                "2021 - 03 - 25; Midtjylland; M; 19065; 193; 18294; 1045; 482053; 47; 0; 39; 2; 815; 4; 1832711; 14481; 44; 254993; 13952",
+                "2021 - 03 - 25; NA; ; 0; 0; 0; 0; 21; 0; 0; 0; 0; 0; 5; 33; 0; 55; 0; 0",
+                "2021 - 03 - 25; NA; F; 655; 0; 635; 41; 16807; 2; 0; 5; 0; 76; 51777; 6; 521; 66; 22313; 893",
+                "2021 - 03 - 25; NA; M; 1409; 2; 1326; 96; 29531; 14; 0; 11; 0; 164; 7; 86101; 1003; 77; 57828; 2248",
+                "2021 - 03 - 25; Nordjylland; F; 7578; 69; 7308; 363; 243561; 17; 0; 8; 1; 162; 8; 1294326; 10634; 88; 113454; 5581",
+                "2021 - 03 - 25; Nordjylland; M; 7544; 109; 7187; 456; 233603; 20; 0; 16; 1; 205; 9; 953537; 6543; 99; 116243; 5379",
+                "2021 - 03 - 25; Sjælland; F; 16247; 172; 15608; 1048; 318192; 42; 0; 26; 1; 509; 10; 1625652; 17068; 111; 165781; 10162",
+                "2021 - 03 - 25; Sjælland; M; 14906; 220; 14172; 1241; 295781; 49; 2; 32; 3; 542; 11; 1170251; 11326; 122; 168652; 9929",
+                "2021 - 03 - 25; Syddanmark; F; 15910; 96; 14778; 726; 470277; 81; 0; 86; 6; 802; 12; 2359197; 26026; 133; 288328; 32570",
+                "2021 - 03 - 25; Syddanmark; M; 16131; 113; 14948; 823; 443710; 84; 0; 77; 3; 856; 13; 1781740; 18009; 144; 275814; 29153"
             };
 
             _sampleFilesStatistics.Add(new Tuple<string, string[]>("Regionalt_DB/01_noegle_tal.csv", statisticsContent));
