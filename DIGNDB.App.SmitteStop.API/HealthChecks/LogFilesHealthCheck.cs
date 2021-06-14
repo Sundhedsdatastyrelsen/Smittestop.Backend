@@ -146,15 +146,12 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
 
         private bool QueryContainsWfe01AndMachineIsWfe01(IQueryCollection query)
         {
+            var server1Name = _apiConfiguration.HealthCheckSettings.Server1Name;
             query.TryGetValue("server", out var server);
-            var queryContainsWfe01 = server == "wfe01";
+            var queryContainsWfe01 = server == server1Name;
 
             var name = Environment.MachineName;
-            var isWfe01 = name.ToLower().Contains("wfe01");
-
-#if DEBUG
-            isWfe01 = true;
-#endif
+            var isWfe01 = name.ToLower().Contains(server1Name);
 
             _logger.LogInformation($"|Health check log files| Server name: {name}; Field for server name 'isWfe01' value: {isWfe01}; Query contains 'wfe01': {queryContainsWfe01}; Query: {query}");
 
