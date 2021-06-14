@@ -150,7 +150,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
             var queryContainsWfe01 = server == "wfe01";
 
             var name = Environment.MachineName;
-            var isWfe01 = name.ToLower() == "wfe01";
+            var isWfe01 = name.ToLower().Contains("wfe01");
 
 #if DEBUG
             isWfe01 = true;
