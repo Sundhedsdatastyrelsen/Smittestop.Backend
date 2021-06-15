@@ -61,8 +61,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
         /// <param name="context"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             _logger.LogInformation("Health check HangFire");
 
@@ -146,16 +145,18 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
 
         private bool QueryContainsWfe01AndMachineIsWfe01(IQueryCollection query)
         {
-            var server1Name = _apiConfiguration.HealthCheckSettings.Server1Name.ToLower();
             query.TryGetValue("server", out var server);
-            var serverLower = server[0].ToLower();
-            var queryContainsServer1Name = serverLower == server1Name;
+            var serverParameter = server[0].ToLower();
+
+            var server1Name = _apiConfiguration.HealthCheckSettings.Server1Name.ToLower();
+            var queryContainsServer1Name = serverParameter == server1Name;
 
             var name = Environment.MachineName.ToLower();
             var isServer1 = name.Contains(server1Name);
 
             _logger.LogInformation($"|Health check log files| Server name: {name}; Field for server name 'isWfe01' value: {isServer1}; Query contains 'wfe01': {queryContainsServer1Name}; Query: {query}");
 
+            // true IF query contains server name AND request is received on server 1
             return queryContainsServer1Name && isServer1;
         }
     }
