@@ -134,7 +134,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 ssiStatistics.ConfirmedCasesTotal += statisticsDto.ConfirmedCases;
                 ssiStatistics.DeathsToday += statisticsDto.ChangedDied;
                 ssiStatistics.DeathsTotal += statisticsDto.Died;
-                ssiStatistics.TestsConductedToday += statisticsDto.ChangedNumberSamplesPcr + statisticsDto.ChangedNumberSamplesAntigen;
+                ssiStatistics.TestsConductedToday += statisticsDto.ChangedNumberSamplesPcr;
                 ssiStatistics.TestsConductedTotal += statisticsDto.NumberSamples;
             }
             

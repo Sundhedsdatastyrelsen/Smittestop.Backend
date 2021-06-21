@@ -118,7 +118,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
                 Date = _sampleDateInfection,
                 DeathsToday = 5,
                 DeathsTotal = 2409,
-                TestsConductedToday = 188419
+                TestsConductedToday = 187414
             };
 
             _expectedOutputVaccination = new SSIStatisticsVaccination
