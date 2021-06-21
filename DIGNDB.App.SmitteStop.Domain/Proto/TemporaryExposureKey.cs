@@ -1,5 +1,5 @@
-﻿using Google.Protobuf;
-using System.Text;
+﻿using System.Text;
+using Google.Protobuf;
 
 namespace DIGNDB.App.SmitteStop.Domain.Proto
 {
@@ -12,14 +12,12 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
     public partial class TemporaryExposureKey
     {
-        public TemporaryExposureKey(byte[] keyData, int rollingStart, int rollingDuration, int transmissionRisk, Types.ReportType reportType, int daysSinceOnsetOfSymptoms)
+        public TemporaryExposureKey(byte[] keyData, int rollingStart, int rollingDuration, int transmissionRisk)
         {
             KeyData = ByteString.CopyFrom(keyData);
             RollingStartIntervalNumber = rollingStart;
             RollingPeriod = rollingDuration;
             TransmissionRiskLevel = transmissionRisk;
-            ReportType = reportType;
-            DaysSinceOnsetOfSymptoms = daysSinceOnsetOfSymptoms;
         }
     }
 

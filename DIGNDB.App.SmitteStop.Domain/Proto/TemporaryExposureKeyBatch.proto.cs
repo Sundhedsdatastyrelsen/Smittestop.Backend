@@ -28,35 +28,29 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         {
             byte[] descriptorData = global::System.Convert.FromBase64String(
                 string.Concat(
-                  "Ch9UZW1wb3JhcnlFeHBvc3VyZUtleUJhdGNoLnByb3RvIv4BChpUZW1wb3Jh",
+                  "Ch9UZW1wb3JhcnlFeHBvc3VyZUtleUJhdGNoLnByb3RvItEBChpUZW1wb3Jh",
                   "cnlFeHBvc3VyZUtleUV4cG9ydBIXCg9zdGFydF90aW1lc3RhbXAYASABKAYS",
                   "FQoNZW5kX3RpbWVzdGFtcBgCIAEoBhIOCgZyZWdpb24YAyABKAkSEQoJYmF0",
                   "Y2hfbnVtGAQgASgFEhIKCmJhdGNoX3NpemUYBSABKAUSJwoPc2lnbmF0dXJl",
                   "X2luZm9zGAYgAygLMg4uU2lnbmF0dXJlSW5mbxIjCgRrZXlzGAcgAygLMhUu",
-                  "VGVtcG9yYXJ5RXhwb3N1cmVLZXkSKwoMcmV2aXNlZF9rZXlzGAggAygLMhUu",
-                  "VGVtcG9yYXJ5RXhwb3N1cmVLZXkilwEKDVNpZ25hdHVyZUluZm8SIAoYdmVy",
-                  "aWZpY2F0aW9uX2tleV92ZXJzaW9uGAMgASgJEhsKE3ZlcmlmaWNhdGlvbl9r",
-                  "ZXlfaWQYBCABKAkSGwoTc2lnbmF0dXJlX2FsZ29yaXRobRgFIAEoCUoECAEQ",
-                  "AkoECAIQA1INYXBwX2J1bmRsZV9pZFIPYW5kcm9pZF9wYWNrYWdlIuwCChRU",
-                  "ZW1wb3JhcnlFeHBvc3VyZUtleRIQCghrZXlfZGF0YRgBIAEoDBIjChd0cmFu",
-                  "c21pc3Npb25fcmlza19sZXZlbBgCIAEoBUICGAESJQodcm9sbGluZ19zdGFy",
+                  "VGVtcG9yYXJ5RXhwb3N1cmVLZXkimwEKDVNpZ25hdHVyZUluZm8SFQoNYXBw",
+                  "X2J1bmRsZV9pZBgBIAEoCRIXCg9hbmRyb2lkX3BhY2thZ2UYAiABKAkSIAoY",
+                  "dmVyaWZpY2F0aW9uX2tleV92ZXJzaW9uGAMgASgJEhsKE3ZlcmlmaWNhdGlv",
+                  "bl9rZXlfaWQYBCABKAkSGwoTc2lnbmF0dXJlX2FsZ29yaXRobRgFIAEoCSKN",
+                  "AQoUVGVtcG9yYXJ5RXhwb3N1cmVLZXkSEAoIa2V5X2RhdGEYASABKAwSHwoX",
+                  "dHJhbnNtaXNzaW9uX3Jpc2tfbGV2ZWwYAiABKAUSJQodcm9sbGluZ19zdGFy",
                   "dF9pbnRlcnZhbF9udW1iZXIYAyABKAUSGwoOcm9sbGluZ19wZXJpb2QYBCAB",
-                  "KAU6AzE0NBI1CgtyZXBvcnRfdHlwZRgFIAEoDjIgLlRlbXBvcmFyeUV4cG9z",
-                  "dXJlS2V5LlJlcG9ydFR5cGUSJAocZGF5c19zaW5jZV9vbnNldF9vZl9zeW1w",
-                  "dG9tcxgGIAEoESJ8CgpSZXBvcnRUeXBlEgsKB1VOS05PV04QABISCg5DT05G",
-                  "SVJNRURfVEVTVBABEiAKHENPTkZJUk1FRF9DTElOSUNBTF9ESUFHTk9TSVMQ",
-                  "AhIPCgtTRUxGX1JFUE9SVBADEg0KCVJFQ1VSU0lWRRAEEgsKB1JFVk9LRUQQ",
-                  "BSI1ChBURUtTaWduYXR1cmVMaXN0EiEKCnNpZ25hdHVyZXMYASADKAsyDS5U",
-                  "RUtTaWduYXR1cmUicAoMVEVLU2lnbmF0dXJlEiYKDnNpZ25hdHVyZV9pbmZv",
-                  "GAEgASgLMg4uU2lnbmF0dXJlSW5mbxIRCgliYXRjaF9udW0YAiABKAUSEgoK",
-                  "YmF0Y2hfc2l6ZRgDIAEoBRIRCglzaWduYXR1cmUYBCABKAxCKaoCJkRJR05E",
-                  "Qi5BcHAuU21pdHRlU3RvcC5Db3JlLlByb3RvTW9kZWxz"));
+                  "KAU6AzE0NCI1ChBURUtTaWduYXR1cmVMaXN0EiEKCnNpZ25hdHVyZXMYASAD",
+                  "KAsyDS5URUtTaWduYXR1cmUicAoMVEVLU2lnbmF0dXJlEiYKDnNpZ25hdHVy",
+                  "ZV9pbmZvGAEgASgLMg4uU2lnbmF0dXJlSW5mbxIRCgliYXRjaF9udW0YAiAB",
+                  "KAUSEgoKYmF0Y2hfc2l6ZRgDIAEoBRIRCglzaWduYXR1cmUYBCABKAxCKaoC",
+                  "JkV4cG9zdXJlTm90aWZpY2F0aW9uLkJhY2tlbmQuRnVuY3Rpb25z"));
             descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
                 new pbr::FileDescriptor[] { },
                 new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKeyExport), global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKeyExport.Parser, new[]{ "StartTimestamp", "EndTimestamp", "Region", "BatchNum", "BatchSize", "SignatureInfos", "Keys", "RevisedKeys" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo), global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo.Parser, new[]{ "VerificationKeyVersion", "VerificationKeyId", "SignatureAlgorithm" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey), global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Parser, new[]{ "KeyData", "TransmissionRiskLevel", "RollingStartIntervalNumber", "RollingPeriod", "ReportType", "DaysSinceOnsetOfSymptoms" }, null, new[]{ typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType) }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKeyExport), global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKeyExport.Parser, new[]{ "StartTimestamp", "EndTimestamp", "Region", "BatchNum", "BatchSize", "SignatureInfos", "Keys" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo), global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo.Parser, new[]{ "AppBundleId", "AndroidPackage", "VerificationKeyVersion", "VerificationKeyId", "SignatureAlgorithm" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey), global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Parser, new[]{ "KeyData", "TransmissionRiskLevel", "RollingStartIntervalNumber", "RollingPeriod" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TEKSignatureList), global::DIGNDB.App.SmitteStop.Domain.Proto.TEKSignatureList.Parser, new[]{ "Signatures" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DIGNDB.App.SmitteStop.Domain.Proto.TEKSignature), global::DIGNDB.App.SmitteStop.Domain.Proto.TEKSignature.Parser, new[]{ "SignatureInfo", "BatchNum", "BatchSize", "Signature" }, null, null, null, null)
                 }));
@@ -68,22 +62,20 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
     /// <summary>
     /// Protobuf definition for exports of confirmed temporary exposure keys.
     ///
-    /// These files have a 16-byte, zero-padded header before the protobuf data
+    /// The full file format is documented under "Exposure Key Export File Format
+    /// and Verification" at https://www.google.com/covid19/exposurenotifications/
+    ///
+    /// These files have a 16-byte, space-padded header before the protobuf data
     /// starts. They will be contained in a zip archive, alongside a signature
     /// file verifying the contents.
-    ///
-    /// See https://static.googleusercontent.com/media/www.google.com/en//covid19/exposurenotifications/pdfs/Exposure-Key-File-Format-and-Verification.pdf
     /// </summary>
-    public sealed partial class TemporaryExposureKeyExport : pb::IMessage<TemporaryExposureKeyExport>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-#endif
+    public sealed partial class TemporaryExposureKeyExport : pb::IMessage<Domain.Proto.TemporaryExposureKeyExport>
     {
-        private static readonly pb::MessageParser<TemporaryExposureKeyExport> _parser = new pb::MessageParser<TemporaryExposureKeyExport>(() => new TemporaryExposureKeyExport());
+        private static readonly pb::MessageParser<Domain.Proto.TemporaryExposureKeyExport> _parser = new pb::MessageParser<Domain.Proto.TemporaryExposureKeyExport>(() => new Domain.Proto.TemporaryExposureKeyExport());
         private pb::UnknownFieldSet _unknownFields;
         private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<TemporaryExposureKeyExport> Parser { get { return _parser; } }
+        public static pb::MessageParser<Domain.Proto.TemporaryExposureKeyExport> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor
@@ -106,7 +98,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public TemporaryExposureKeyExport(TemporaryExposureKeyExport other) : this()
+        public TemporaryExposureKeyExport(Domain.Proto.TemporaryExposureKeyExport other) : this()
         {
             _hasBits0 = other._hasBits0;
             startTimestamp_ = other.startTimestamp_;
@@ -116,14 +108,13 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             batchSize_ = other.batchSize_;
             signatureInfos_ = other.signatureInfos_.Clone();
             keys_ = other.keys_.Clone();
-            revisedKeys_ = other.revisedKeys_.Clone();
             _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public TemporaryExposureKeyExport Clone()
+        public Domain.Proto.TemporaryExposureKeyExport Clone()
         {
-            return new TemporaryExposureKeyExport(this);
+            return new Domain.Proto.TemporaryExposureKeyExport(this);
         }
 
         /// <summary>Field number for the "start_timestamp" field.</summary>
@@ -132,7 +123,8 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         private ulong startTimestamp_;
         /// <summary>
-        /// Time window of keys in this batch based on arrival to server, in UTC seconds.
+        /// Time window of keys in this file based on arrival to server, in UTC
+        /// seconds
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong StartTimestamp
@@ -191,7 +183,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         private string region_;
         /// <summary>
-        /// Region for which these keys came from, such as country.
+        /// Region for which these keys came from (e.g., country)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string Region
@@ -221,8 +213,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         private int batchNum_;
         /// <summary>
-        /// For example, file 2 in batch size of 10. Ordinal, 1-based numbering.
-        /// Note: Not yet supported on iOS.
+        /// E.g., Batch 2 of 10. Ordinal, 1-based numbering.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int BatchNum
@@ -281,7 +272,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             = pb::FieldCodec.ForMessage(50, global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo.Parser);
         private readonly pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo> signatureInfos_ = new pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo>();
         /// <summary>
-        /// Information about associated signatures
+        /// Information about signatures
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo> SignatureInfos
@@ -295,9 +286,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             = pb::FieldCodec.ForMessage(58, global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Parser);
         private readonly pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey> keys_ = new pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey>();
         /// <summary>
-        /// The TemporaryExposureKeys for initial release of keys.
-        /// Keys should be included in this list for initial release,
-        /// whereas revised or revoked keys should go in revised_keys.
+        /// The TemporaryExposureKeys themselves
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey> Keys
@@ -305,30 +294,14 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             get { return keys_; }
         }
 
-        /// <summary>Field number for the "revised_keys" field.</summary>
-        public const int RevisedKeysFieldNumber = 8;
-        private static readonly pb::FieldCodec<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey> _repeated_revisedKeys_codec
-            = pb::FieldCodec.ForMessage(66, global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Parser);
-        private readonly pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey> revisedKeys_ = new pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey>();
-        /// <summary>
-        /// TemporaryExposureKeys that have changed status.
-        /// Keys should be included in this list if they have changed status
-        /// or have been revoked.
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public pbc::RepeatedField<global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey> RevisedKeys
-        {
-            get { return revisedKeys_; }
-        }
-
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other)
         {
-            return Equals(other as TemporaryExposureKeyExport);
+            return Equals(other as Domain.Proto.TemporaryExposureKeyExport);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(TemporaryExposureKeyExport other)
+        public bool Equals(Domain.Proto.TemporaryExposureKeyExport other)
         {
             if (ReferenceEquals(other, null))
             {
@@ -345,7 +318,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             if (BatchSize != other.BatchSize) return false;
             if (!signatureInfos_.Equals(other.signatureInfos_)) return false;
             if (!keys_.Equals(other.keys_)) return false;
-            if (!revisedKeys_.Equals(other.revisedKeys_)) return false;
             return Equals(_unknownFields, other._unknownFields);
         }
 
@@ -360,7 +332,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             if (HasBatchSize) hash ^= BatchSize.GetHashCode();
             hash ^= signatureInfos_.GetHashCode();
             hash ^= keys_.GetHashCode();
-            hash ^= revisedKeys_.GetHashCode();
             if (_unknownFields != null)
             {
                 hash ^= _unknownFields.GetHashCode();
@@ -376,42 +347,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output)
-        {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            output.WriteRawMessage(this);
-#else
-      if (HasStartTimestamp) {
-        output.WriteRawTag(9);
-        output.WriteFixed64(StartTimestamp);
-      }
-      if (HasEndTimestamp) {
-        output.WriteRawTag(17);
-        output.WriteFixed64(EndTimestamp);
-      }
-      if (HasRegion) {
-        output.WriteRawTag(26);
-        output.WriteString(Region);
-      }
-      if (HasBatchNum) {
-        output.WriteRawTag(32);
-        output.WriteInt32(BatchNum);
-      }
-      if (HasBatchSize) {
-        output.WriteRawTag(40);
-        output.WriteInt32(BatchSize);
-      }
-      signatureInfos_.WriteTo(output, _repeated_signatureInfos_codec);
-      keys_.WriteTo(output, _repeated_keys_codec);
-      revisedKeys_.WriteTo(output, _repeated_revisedKeys_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
         {
             if (HasStartTimestamp)
             {
@@ -438,15 +373,13 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 output.WriteRawTag(40);
                 output.WriteInt32(BatchSize);
             }
-            signatureInfos_.WriteTo(ref output, _repeated_signatureInfos_codec);
-            keys_.WriteTo(ref output, _repeated_keys_codec);
-            revisedKeys_.WriteTo(ref output, _repeated_revisedKeys_codec);
+            signatureInfos_.WriteTo(output, _repeated_signatureInfos_codec);
+            keys_.WriteTo(output, _repeated_keys_codec);
             if (_unknownFields != null)
             {
-                _unknownFields.WriteTo(ref output);
+                _unknownFields.WriteTo(output);
             }
         }
-#endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize()
@@ -474,7 +407,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             }
             size += signatureInfos_.CalculateSize(_repeated_signatureInfos_codec);
             size += keys_.CalculateSize(_repeated_keys_codec);
-            size += revisedKeys_.CalculateSize(_repeated_revisedKeys_codec);
             if (_unknownFields != null)
             {
                 size += _unknownFields.CalculateSize();
@@ -483,7 +415,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(TemporaryExposureKeyExport other)
+        public void MergeFrom(Domain.Proto.TemporaryExposureKeyExport other)
         {
             if (other == null)
             {
@@ -511,62 +443,11 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             }
             signatureInfos_.Add(other.signatureInfos_);
             keys_.Add(other.keys_);
-            revisedKeys_.Add(other.revisedKeys_);
             _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input)
-        {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            input.ReadRawMessage(this);
-#else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 9: {
-            StartTimestamp = input.ReadFixed64();
-            break;
-          }
-          case 17: {
-            EndTimestamp = input.ReadFixed64();
-            break;
-          }
-          case 26: {
-            Region = input.ReadString();
-            break;
-          }
-          case 32: {
-            BatchNum = input.ReadInt32();
-            break;
-          }
-          case 40: {
-            BatchSize = input.ReadInt32();
-            break;
-          }
-          case 50: {
-            signatureInfos_.AddEntriesFrom(input, _repeated_signatureInfos_codec);
-            break;
-          }
-          case 58: {
-            keys_.AddEntriesFrom(input, _repeated_keys_codec);
-            break;
-          }
-          case 66: {
-            revisedKeys_.AddEntriesFrom(input, _repeated_revisedKeys_codec);
-            break;
-          }
-        }
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
         {
             uint tag;
             while ((tag = input.ReadTag()) != 0)
@@ -574,7 +455,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 switch (tag)
                 {
                     default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                         break;
                     case 9:
                         {
@@ -603,35 +484,26 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                         }
                     case 50:
                         {
-                            signatureInfos_.AddEntriesFrom(ref input, _repeated_signatureInfos_codec);
+                            signatureInfos_.AddEntriesFrom(input, _repeated_signatureInfos_codec);
                             break;
                         }
                     case 58:
                         {
-                            keys_.AddEntriesFrom(ref input, _repeated_keys_codec);
-                            break;
-                        }
-                    case 66:
-                        {
-                            revisedKeys_.AddEntriesFrom(ref input, _repeated_revisedKeys_codec);
+                            keys_.AddEntriesFrom(input, _repeated_keys_codec);
                             break;
                         }
                 }
             }
         }
-#endif
 
     }
 
-    public sealed partial class SignatureInfo : pb::IMessage<SignatureInfo>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-#endif
+    public sealed partial class SignatureInfo : pb::IMessage<Domain.Proto.SignatureInfo>
     {
-        private static readonly pb::MessageParser<SignatureInfo> _parser = new pb::MessageParser<SignatureInfo>(() => new SignatureInfo());
+        private static readonly pb::MessageParser<Domain.Proto.SignatureInfo> _parser = new pb::MessageParser<Domain.Proto.SignatureInfo>(() => new Domain.Proto.SignatureInfo());
         private pb::UnknownFieldSet _unknownFields;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<SignatureInfo> Parser { get { return _parser; } }
+        public static pb::MessageParser<Domain.Proto.SignatureInfo> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor
@@ -654,8 +526,10 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public SignatureInfo(SignatureInfo other) : this()
+        public SignatureInfo(Domain.Proto.SignatureInfo other) : this()
         {
+            appBundleId_ = other.appBundleId_;
+            androidPackage_ = other.androidPackage_;
             verificationKeyVersion_ = other.verificationKeyVersion_;
             verificationKeyId_ = other.verificationKeyId_;
             signatureAlgorithm_ = other.signatureAlgorithm_;
@@ -663,9 +537,69 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public SignatureInfo Clone()
+        public Domain.Proto.SignatureInfo Clone()
         {
-            return new SignatureInfo(this);
+            return new Domain.Proto.SignatureInfo(this);
+        }
+
+        /// <summary>Field number for the "app_bundle_id" field.</summary>
+        public const int AppBundleIdFieldNumber = 1;
+        private readonly static string AppBundleIdDefaultValue = "";
+
+        private string appBundleId_;
+        /// <summary>
+        /// Apple App Store Application Bundle ID
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string AppBundleId
+        {
+            get { return appBundleId_ ?? AppBundleIdDefaultValue; }
+            set
+            {
+                appBundleId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+        /// <summary>Gets whether the "app_bundle_id" field is set</summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool HasAppBundleId
+        {
+            get { return appBundleId_ != null; }
+        }
+        /// <summary>Clears the value of the "app_bundle_id" field</summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void ClearAppBundleId()
+        {
+            appBundleId_ = null;
+        }
+
+        /// <summary>Field number for the "android_package" field.</summary>
+        public const int AndroidPackageFieldNumber = 2;
+        private readonly static string AndroidPackageDefaultValue = "";
+
+        private string androidPackage_;
+        /// <summary>
+        /// Android App package name
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public string AndroidPackage
+        {
+            get { return androidPackage_ ?? AndroidPackageDefaultValue; }
+            set
+            {
+                androidPackage_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+            }
+        }
+        /// <summary>Gets whether the "android_package" field is set</summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool HasAndroidPackage
+        {
+            get { return androidPackage_ != null; }
+        }
+        /// <summary>Clears the value of the "android_package" field</summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void ClearAndroidPackage()
+        {
+            androidPackage_ = null;
         }
 
         /// <summary>Field number for the "verification_key_version" field.</summary>
@@ -675,7 +609,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         private string verificationKeyVersion_;
         /// <summary>
         /// Key version for rollovers
-        /// Must be in character class [a-zA-Z0-9_]. For example, 'v1'
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string VerificationKeyVersion
@@ -706,10 +639,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         private string verificationKeyId_;
         /// <summary>
         /// Alias with which to identify public key to be used for verification
-        /// Must be in character class [a-zA-Z0-9_.]
-        /// For cross-compatibility with Apple, you can use your region's three-digit
-        /// mobile country code (MCC). If your region has more than one MCC, choose the
-        /// one that Apple has configured.
+        /// Must be in character class [a-zA-Z0-9_]
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string VerificationKeyId
@@ -739,7 +669,8 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         private string signatureAlgorithm_;
         /// <summary>
-        /// ASN.1 OID for Algorithm Identifier. For example, `1.2.840.10045.4.3.2'
+        /// ASN.1 OID for Algorithm Identifier. Supported algorithms are
+        /// either 1.2.840.10045.4.3.2 or 1.2.840.10045.4.3.4
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string SignatureAlgorithm
@@ -766,11 +697,11 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other)
         {
-            return Equals(other as SignatureInfo);
+            return Equals(other as Domain.Proto.SignatureInfo);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(SignatureInfo other)
+        public bool Equals(Domain.Proto.SignatureInfo other)
         {
             if (ReferenceEquals(other, null))
             {
@@ -780,6 +711,8 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             {
                 return true;
             }
+            if (AppBundleId != other.AppBundleId) return false;
+            if (AndroidPackage != other.AndroidPackage) return false;
             if (VerificationKeyVersion != other.VerificationKeyVersion) return false;
             if (VerificationKeyId != other.VerificationKeyId) return false;
             if (SignatureAlgorithm != other.SignatureAlgorithm) return false;
@@ -790,6 +723,8 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         public override int GetHashCode()
         {
             int hash = 1;
+            if (HasAppBundleId) hash ^= AppBundleId.GetHashCode();
+            if (HasAndroidPackage) hash ^= AndroidPackage.GetHashCode();
             if (HasVerificationKeyVersion) hash ^= VerificationKeyVersion.GetHashCode();
             if (HasVerificationKeyId) hash ^= VerificationKeyId.GetHashCode();
             if (HasSignatureAlgorithm) hash ^= SignatureAlgorithm.GetHashCode();
@@ -809,31 +744,16 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            output.WriteRawMessage(this);
-#else
-      if (HasVerificationKeyVersion) {
-        output.WriteRawTag(26);
-        output.WriteString(VerificationKeyVersion);
-      }
-      if (HasVerificationKeyId) {
-        output.WriteRawTag(34);
-        output.WriteString(VerificationKeyId);
-      }
-      if (HasSignatureAlgorithm) {
-        output.WriteRawTag(42);
-        output.WriteString(SignatureAlgorithm);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-        {
+            if (HasAppBundleId)
+            {
+                output.WriteRawTag(10);
+                output.WriteString(AppBundleId);
+            }
+            if (HasAndroidPackage)
+            {
+                output.WriteRawTag(18);
+                output.WriteString(AndroidPackage);
+            }
             if (HasVerificationKeyVersion)
             {
                 output.WriteRawTag(26);
@@ -851,15 +771,22 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             }
             if (_unknownFields != null)
             {
-                _unknownFields.WriteTo(ref output);
+                _unknownFields.WriteTo(output);
             }
         }
-#endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize()
         {
             int size = 0;
+            if (HasAppBundleId)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(AppBundleId);
+            }
+            if (HasAndroidPackage)
+            {
+                size += 1 + pb::CodedOutputStream.ComputeStringSize(AndroidPackage);
+            }
             if (HasVerificationKeyVersion)
             {
                 size += 1 + pb::CodedOutputStream.ComputeStringSize(VerificationKeyVersion);
@@ -880,11 +807,19 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(SignatureInfo other)
+        public void MergeFrom(Domain.Proto.SignatureInfo other)
         {
             if (other == null)
             {
                 return;
+            }
+            if (other.HasAppBundleId)
+            {
+                AppBundleId = other.AppBundleId;
+            }
+            if (other.HasAndroidPackage)
+            {
+                AndroidPackage = other.AndroidPackage;
             }
             if (other.HasVerificationKeyVersion)
             {
@@ -904,44 +839,24 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            input.ReadRawMessage(this);
-#else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 26: {
-            VerificationKeyVersion = input.ReadString();
-            break;
-          }
-          case 34: {
-            VerificationKeyId = input.ReadString();
-            break;
-          }
-          case 42: {
-            SignatureAlgorithm = input.ReadString();
-            break;
-          }
-        }
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-        {
             uint tag;
             while ((tag = input.ReadTag()) != 0)
             {
                 switch (tag)
                 {
                     default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                         break;
+                    case 10:
+                        {
+                            AppBundleId = input.ReadString();
+                            break;
+                        }
+                    case 18:
+                        {
+                            AndroidPackage = input.ReadString();
+                            break;
+                        }
                     case 26:
                         {
                             VerificationKeyVersion = input.ReadString();
@@ -960,20 +875,16 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 }
             }
         }
-#endif
 
     }
 
-    public sealed partial class TemporaryExposureKey : pb::IMessage<TemporaryExposureKey>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-#endif
+    public sealed partial class TemporaryExposureKey : pb::IMessage<Domain.Proto.TemporaryExposureKey>
     {
-        private static readonly pb::MessageParser<TemporaryExposureKey> _parser = new pb::MessageParser<TemporaryExposureKey>(() => new TemporaryExposureKey());
+        private static readonly pb::MessageParser<Domain.Proto.TemporaryExposureKey> _parser = new pb::MessageParser<Domain.Proto.TemporaryExposureKey>(() => new Domain.Proto.TemporaryExposureKey());
         private pb::UnknownFieldSet _unknownFields;
         private int _hasBits0;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<TemporaryExposureKey> Parser { get { return _parser; } }
+        public static pb::MessageParser<Domain.Proto.TemporaryExposureKey> Parser { get { return _parser; } }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public static pbr::MessageDescriptor Descriptor
@@ -996,22 +907,20 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         partial void OnConstruction();
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public TemporaryExposureKey(TemporaryExposureKey other) : this()
+        public TemporaryExposureKey(Domain.Proto.TemporaryExposureKey other) : this()
         {
             _hasBits0 = other._hasBits0;
             keyData_ = other.keyData_;
             transmissionRiskLevel_ = other.transmissionRiskLevel_;
             rollingStartIntervalNumber_ = other.rollingStartIntervalNumber_;
             rollingPeriod_ = other.rollingPeriod_;
-            reportType_ = other.reportType_;
-            daysSinceOnsetOfSymptoms_ = other.daysSinceOnsetOfSymptoms_;
             _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public TemporaryExposureKey Clone()
+        public Domain.Proto.TemporaryExposureKey Clone()
         {
-            return new TemporaryExposureKey(this);
+            return new Domain.Proto.TemporaryExposureKey(this);
         }
 
         /// <summary>Field number for the "key_data" field.</summary>
@@ -1050,9 +959,8 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         private int transmissionRiskLevel_;
         /// <summary>
-        /// Varying risk associated with a key depending on diagnosis method
+        /// Varying risks associated with exposure depending on type of verification
         /// </summary>
-        [global::System.ObsoleteAttribute]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int TransmissionRiskLevel
         {
@@ -1064,14 +972,12 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             }
         }
         /// <summary>Gets whether the "transmission_risk_level" field is set</summary>
-        [global::System.ObsoleteAttribute]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public bool HasTransmissionRiskLevel
         {
             get { return (_hasBits0 & 1) != 0; }
         }
         /// <summary>Clears the value of the "transmission_risk_level" field</summary>
-        [global::System.ObsoleteAttribute]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void ClearTransmissionRiskLevel()
         {
@@ -1140,77 +1046,14 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             _hasBits0 &= ~4;
         }
 
-        /// <summary>Field number for the "report_type" field.</summary>
-        public const int ReportTypeFieldNumber = 5;
-        private readonly static global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType ReportTypeDefaultValue = global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType.Unknown;
-
-        private global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType reportType_;
-        /// <summary>
-        /// Type of diagnosis associated with a key.
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType ReportType
-        {
-            get { if ((_hasBits0 & 8) != 0) { return reportType_; } else { return ReportTypeDefaultValue; } }
-            set
-            {
-                _hasBits0 |= 8;
-                reportType_ = value;
-            }
-        }
-        /// <summary>Gets whether the "report_type" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasReportType
-        {
-            get { return (_hasBits0 & 8) != 0; }
-        }
-        /// <summary>Clears the value of the "report_type" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearReportType()
-        {
-            _hasBits0 &= ~8;
-        }
-
-        /// <summary>Field number for the "days_since_onset_of_symptoms" field.</summary>
-        public const int DaysSinceOnsetOfSymptomsFieldNumber = 6;
-        private readonly static int DaysSinceOnsetOfSymptomsDefaultValue = 0;
-
-        private int daysSinceOnsetOfSymptoms_;
-        /// <summary>
-        /// Number of days elapsed between symptom onset and the TEK being used.
-        /// E.g. 2 means TEK is 2 days after onset of symptoms.
-        /// </summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int DaysSinceOnsetOfSymptoms
-        {
-            get { if ((_hasBits0 & 16) != 0) { return daysSinceOnsetOfSymptoms_; } else { return DaysSinceOnsetOfSymptomsDefaultValue; } }
-            set
-            {
-                _hasBits0 |= 16;
-                daysSinceOnsetOfSymptoms_ = value;
-            }
-        }
-        /// <summary>Gets whether the "days_since_onset_of_symptoms" field is set</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool HasDaysSinceOnsetOfSymptoms
-        {
-            get { return (_hasBits0 & 16) != 0; }
-        }
-        /// <summary>Clears the value of the "days_since_onset_of_symptoms" field</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void ClearDaysSinceOnsetOfSymptoms()
-        {
-            _hasBits0 &= ~16;
-        }
-
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other)
         {
-            return Equals(other as TemporaryExposureKey);
+            return Equals(other as Domain.Proto.TemporaryExposureKey);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(TemporaryExposureKey other)
+        public bool Equals(Domain.Proto.TemporaryExposureKey other)
         {
             if (ReferenceEquals(other, null))
             {
@@ -1224,8 +1067,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             if (TransmissionRiskLevel != other.TransmissionRiskLevel) return false;
             if (RollingStartIntervalNumber != other.RollingStartIntervalNumber) return false;
             if (RollingPeriod != other.RollingPeriod) return false;
-            if (ReportType != other.ReportType) return false;
-            if (DaysSinceOnsetOfSymptoms != other.DaysSinceOnsetOfSymptoms) return false;
             return Equals(_unknownFields, other._unknownFields);
         }
 
@@ -1237,8 +1078,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             if (HasTransmissionRiskLevel) hash ^= TransmissionRiskLevel.GetHashCode();
             if (HasRollingStartIntervalNumber) hash ^= RollingStartIntervalNumber.GetHashCode();
             if (HasRollingPeriod) hash ^= RollingPeriod.GetHashCode();
-            if (HasReportType) hash ^= ReportType.GetHashCode();
-            if (HasDaysSinceOnsetOfSymptoms) hash ^= DaysSinceOnsetOfSymptoms.GetHashCode();
             if (_unknownFields != null)
             {
                 hash ^= _unknownFields.GetHashCode();
@@ -1254,43 +1093,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output)
-        {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            output.WriteRawMessage(this);
-#else
-      if (HasKeyData) {
-        output.WriteRawTag(10);
-        output.WriteBytes(KeyData);
-      }
-      if (HasTransmissionRiskLevel) {
-        output.WriteRawTag(16);
-        output.WriteInt32(TransmissionRiskLevel);
-      }
-      if (HasRollingStartIntervalNumber) {
-        output.WriteRawTag(24);
-        output.WriteInt32(RollingStartIntervalNumber);
-      }
-      if (HasRollingPeriod) {
-        output.WriteRawTag(32);
-        output.WriteInt32(RollingPeriod);
-      }
-      if (HasReportType) {
-        output.WriteRawTag(40);
-        output.WriteEnum((int) ReportType);
-      }
-      if (HasDaysSinceOnsetOfSymptoms) {
-        output.WriteRawTag(48);
-        output.WriteSInt32(DaysSinceOnsetOfSymptoms);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
         {
             if (HasKeyData)
             {
@@ -1312,22 +1114,11 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 output.WriteRawTag(32);
                 output.WriteInt32(RollingPeriod);
             }
-            if (HasReportType)
-            {
-                output.WriteRawTag(40);
-                output.WriteEnum((int)ReportType);
-            }
-            if (HasDaysSinceOnsetOfSymptoms)
-            {
-                output.WriteRawTag(48);
-                output.WriteSInt32(DaysSinceOnsetOfSymptoms);
-            }
             if (_unknownFields != null)
             {
-                _unknownFields.WriteTo(ref output);
+                _unknownFields.WriteTo(output);
             }
         }
-#endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize()
@@ -1349,14 +1140,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             {
                 size += 1 + pb::CodedOutputStream.ComputeInt32Size(RollingPeriod);
             }
-            if (HasReportType)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)ReportType);
-            }
-            if (HasDaysSinceOnsetOfSymptoms)
-            {
-                size += 1 + pb::CodedOutputStream.ComputeSInt32Size(DaysSinceOnsetOfSymptoms);
-            }
             if (_unknownFields != null)
             {
                 size += _unknownFields.CalculateSize();
@@ -1365,7 +1148,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(TemporaryExposureKey other)
+        public void MergeFrom(Domain.Proto.TemporaryExposureKey other)
         {
             if (other == null)
             {
@@ -1387,61 +1170,11 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             {
                 RollingPeriod = other.RollingPeriod;
             }
-            if (other.HasReportType)
-            {
-                ReportType = other.ReportType;
-            }
-            if (other.HasDaysSinceOnsetOfSymptoms)
-            {
-                DaysSinceOnsetOfSymptoms = other.DaysSinceOnsetOfSymptoms;
-            }
             _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input)
-        {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            input.ReadRawMessage(this);
-#else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            KeyData = input.ReadBytes();
-            break;
-          }
-          case 16: {
-            TransmissionRiskLevel = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            RollingStartIntervalNumber = input.ReadInt32();
-            break;
-          }
-          case 32: {
-            RollingPeriod = input.ReadInt32();
-            break;
-          }
-          case 40: {
-            ReportType = (global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType) input.ReadEnum();
-            break;
-          }
-          case 48: {
-            DaysSinceOnsetOfSymptoms = input.ReadSInt32();
-            break;
-          }
-        }
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
         {
             uint tag;
             while ((tag = input.ReadTag()) != 0)
@@ -1449,7 +1182,7 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 switch (tag)
                 {
                     default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                         break;
                     case 10:
                         {
@@ -1471,57 +1204,13 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                             RollingPeriod = input.ReadInt32();
                             break;
                         }
-                    case 40:
-                        {
-                            ReportType = (global::DIGNDB.App.SmitteStop.Domain.Proto.TemporaryExposureKey.Types.ReportType)input.ReadEnum();
-                            break;
-                        }
-                    case 48:
-                        {
-                            DaysSinceOnsetOfSymptoms = input.ReadSInt32();
-                            break;
-                        }
                 }
             }
         }
-#endif
-
-        #region Nested types
-        /// <summary>Container for nested types declared in the TemporaryExposureKey message type.</summary>
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static partial class Types
-        {
-            /// <summary>
-            /// Data type representing why this key was published.
-            /// </summary>
-            public enum ReportType
-            {
-                /// <summary>
-                /// Never returned by the client API.
-                /// </summary>
-                [pbr::OriginalName("UNKNOWN")] Unknown = 0,
-                [pbr::OriginalName("CONFIRMED_TEST")] ConfirmedTest = 1,
-                [pbr::OriginalName("CONFIRMED_CLINICAL_DIAGNOSIS")] ConfirmedClinicalDiagnosis = 2,
-                [pbr::OriginalName("SELF_REPORT")] SelfReport = 3,
-                /// <summary>
-                /// Reserved for future use.
-                /// </summary>
-                [pbr::OriginalName("RECURSIVE")] Recursive = 4,
-                /// <summary>
-                /// Used to revoke a key, never returned by client API.
-                /// </summary>
-                [pbr::OriginalName("REVOKED")] Revoked = 5,
-            }
-
-        }
-        #endregion
 
     }
 
     public sealed partial class TEKSignatureList : pb::IMessage<TEKSignatureList>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-#endif
     {
         private static readonly pb::MessageParser<TEKSignatureList> _parser = new pb::MessageParser<TEKSignatureList>(() => new TEKSignatureList());
         private pb::UnknownFieldSet _unknownFields;
@@ -1614,27 +1303,12 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            output.WriteRawMessage(this);
-#else
-      signatures_.WriteTo(output, _repeated_signatures_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-        {
-            signatures_.WriteTo(ref output, _repeated_signatures_codec);
+            signatures_.WriteTo(output, _repeated_signatures_codec);
             if (_unknownFields != null)
             {
-                _unknownFields.WriteTo(ref output);
+                _unknownFields.WriteTo(output);
             }
         }
-#endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize()
@@ -1662,52 +1336,26 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            input.ReadRawMessage(this);
-#else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            signatures_.AddEntriesFrom(input, _repeated_signatures_codec);
-            break;
-          }
-        }
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-        {
             uint tag;
             while ((tag = input.ReadTag()) != 0)
             {
                 switch (tag)
                 {
                     default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                         break;
                     case 10:
                         {
-                            signatures_.AddEntriesFrom(ref input, _repeated_signatures_codec);
+                            signatures_.AddEntriesFrom(input, _repeated_signatures_codec);
                             break;
                         }
                 }
             }
         }
-#endif
 
     }
 
     public sealed partial class TEKSignature : pb::IMessage<TEKSignature>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-#endif
     {
         private static readonly pb::MessageParser<TEKSignature> _parser = new pb::MessageParser<TEKSignature>(() => new TEKSignature());
         private pb::UnknownFieldSet _unknownFields;
@@ -1905,35 +1553,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void WriteTo(pb::CodedOutputStream output)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            output.WriteRawMessage(this);
-#else
-      if (signatureInfo_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(SignatureInfo);
-      }
-      if (HasBatchNum) {
-        output.WriteRawTag(16);
-        output.WriteInt32(BatchNum);
-      }
-      if (HasBatchSize) {
-        output.WriteRawTag(24);
-        output.WriteInt32(BatchSize);
-      }
-      if (HasSignature) {
-        output.WriteRawTag(34);
-        output.WriteBytes(Signature);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output)
-        {
             if (signatureInfo_ != null)
             {
                 output.WriteRawTag(10);
@@ -1956,10 +1575,9 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
             }
             if (_unknownFields != null)
             {
-                _unknownFields.WriteTo(ref output);
+                _unknownFields.WriteTo(output);
             }
         }
-#endif
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public int CalculateSize()
@@ -2021,50 +1639,13 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public void MergeFrom(pb::CodedInputStream input)
         {
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-            input.ReadRawMessage(this);
-#else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (signatureInfo_ == null) {
-              SignatureInfo = new global::DIGNDB.App.SmitteStop.Domain.Proto.SignatureInfo();
-            }
-            input.ReadMessage(SignatureInfo);
-            break;
-          }
-          case 16: {
-            BatchNum = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            BatchSize = input.ReadInt32();
-            break;
-          }
-          case 34: {
-            Signature = input.ReadBytes();
-            break;
-          }
-        }
-      }
-#endif
-        }
-
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input)
-        {
             uint tag;
             while ((tag = input.ReadTag()) != 0)
             {
                 switch (tag)
                 {
                     default:
-                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+                        _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                         break;
                     case 10:
                         {
@@ -2093,7 +1674,6 @@ namespace DIGNDB.App.SmitteStop.Domain.Proto
                 }
             }
         }
-#endif
 
     }
 
