@@ -77,7 +77,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
 
                 // Jobs log files
                 var query = _httpContextAccessor.HttpContext.Request.Query;
-                if (QueryContainsWfe01(query))
+                if (QueryContainsWfe01AndMachineIsWfe01(query))
                 {
                     var jobsLogFilesNamePrefix = _apiConfiguration.AppSettings.LogsJobsPath;
                     CheckLogFiles(jobsLogFilesNamePrefix, _jobsRegex, ref status, data, _logFilesDatePattern);
@@ -110,8 +110,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
             if (!Directory.Exists(logFilesDirectoryName))
             {
                 status = HealthStatus.Unhealthy;
-                data.Add($"Could not find log files for {logFilesNamePrefix}",
-                    $"Folder for {logFilesNamePrefix} does not exist");
+                data.Add($"Could not find log files for {logFilesNamePrefix}", $"Folder for {logFilesNamePrefix} does not exist");
             }
             else if (logFilesDirectoryName == null)
             {
@@ -145,10 +144,19 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
             }
         }
 
-        private bool QueryContainsWfe01(IQueryCollection query)
+        private bool QueryContainsWfe01AndMachineIsWfe01(IQueryCollection query)
         {
+            var server1Name = _apiConfiguration.HealthCheckSettings.Server1Name.ToLower();
             query.TryGetValue("server", out var server);
-            return server == "wfe01";
+            var serverLower = server[0].ToLower();
+            var queryContainsServer1Name = serverLower == server1Name;
+
+            var name = Environment.MachineName.ToLower();
+            var isServer1 = name.Contains(server1Name);
+
+            _logger.LogInformation($"|Health check log files| Server name: {name}; Field for server name 'isWfe01' value: {isServer1}; Query contains 'wfe01': {queryContainsServer1Name}; Query: {query}");
+
+            return queryContainsServer1Name && isServer1;
         }
     }
 }
