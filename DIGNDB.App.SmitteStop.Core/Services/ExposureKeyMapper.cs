@@ -52,7 +52,9 @@ namespace DIGNDB.App.SmitteStop.Core.Services
                     source.KeyData,
                     (int)source.RollingStartNumber / secTo10min,
                     (int)source.RollingPeriod,
-                    (int)source.TransmissionRiskLevel
+                    (int)source.TransmissionRiskLevel,
+                    (Domain.Proto.TemporaryExposureKey.Types.ReportType)source.ReportType,
+                    source.DaysSinceOnsetOfSymptoms ?? 0
                 );
         }
 
