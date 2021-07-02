@@ -92,7 +92,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
                 var enabledJobIds = _apiConfiguration.HealthCheckSettings.EnabledJobIds.Where(j => j != "");
                 foreach (var jobId in enabledJobIds)
                 {
-                    var job = recurringJobs.First(j => j.Id == jobId);
+                    var job = recurringJobs.FirstOrDefault(j => j.Id == jobId);
                     if (job.NextExecution != null)
                     {
                         continue;
