@@ -172,6 +172,8 @@ namespace DIGNDB.App.SmitteStop.API
             services.AddScoped<IZipFileInfoService, ZipFileInfoService>();
             services.AddScoped<IFileSystem, FileSystem>();
             services.AddScoped<IUploadFileValidationService, UploadFileValidationService>();
+            services.AddScoped<IHealthCheckHangFireService, HealthCheckHangFireService>();
+
 
             // Health checks
             services.AddHealthChecks()
