@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Contracts\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 
