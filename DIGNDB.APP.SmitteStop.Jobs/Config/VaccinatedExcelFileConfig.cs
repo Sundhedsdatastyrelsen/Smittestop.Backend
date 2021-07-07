@@ -5,5 +5,6 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Config
         public string VaccinatedFirstTimeColumnName { get; set; }
         public string VaccinatedSecondTimeColumnName { get; set; }
         public string VaccinationCulture { get; set; }
+        public string CsvDelimiter { get; set; }
     }
 }

@@ -221,6 +221,7 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             // Encoding based on file from https://covid19.ssi.dk/overvagningsdata/download-fil-med-vaccinationsdata
             using var csvStreamReader = new StreamReader(csvStream, encoding);
             var config = new CsvConfiguration(new CultureInfo(_config.Vaccinated.VaccinationCulture, false));
+            config.Delimiter = _config.Vaccinated.CsvDelimiter;
             config.RegisterClassMap(classMap);
             config.PrepareHeaderForMatch = (header, _) => Regex.Replace(header, @"\s", string.Empty);
 
