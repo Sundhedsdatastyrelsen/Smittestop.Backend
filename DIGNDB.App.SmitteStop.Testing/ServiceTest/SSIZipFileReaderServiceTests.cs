@@ -40,6 +40,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
         private SSIStatisticsVaccination _expectedOutputVaccination;
         private SSIStatisticsVaccination _actualOutputVaccination;
 
+        private string _del;
+
         [SetUp]
         public void SetUp()
         {
@@ -50,8 +52,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
 
             _mockLogger = _mockRepository.Create<ILoggerAdapter<SSIZipFileReaderService>>(MockBehavior.Loose);
             SetupInfectionExampleOutput();
-            SetupSampleFiles();
             SetupSampleConfig();
+            SetupSampleFiles();
             SetupMocks();
         }
 
@@ -98,7 +100,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
                     FileName = "Vaccine_DB/Vaccinationsdaekning_nationalt.csv",
                     VaccinatedFirstTimeColumnName = "Vacc.dækning påbegyndt vacc. (%)",
                     VaccinatedSecondTimeColumnName = "Vacc.dækning faerdigvacc. (%)",
-                    VaccinationCulture = "en-US"
+                    VaccinationCulture = "en-US",
+                    CsvDelimiter =";"
                 },
                 CovidStatistics = new CovidStatistics
                 {
@@ -106,6 +109,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
                     ColumnNames = new[] { "Bekræftede tilfælde", "Døde", "Ændring i antal bekræftede tilfælde", "Ændring i antal døde", "test_totalAG", "Antallet af prøver", "Ændring i antallet af PCR prøver", "Ændring i antallet af Antigen prøver" }
                 }
             };
+
+            _del = _mockSSIExcelParsingConfig.Vaccinated.CsvDelimiter;
         }
 
         private void SetupInfectionExampleOutput()
@@ -228,8 +233,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
 
             string[] todayVaccinationContent = new string[]
             {
-                "geografi,Antal første vacc.,Antal faerdigvacc.,Antal borgere,Vacc.dækning faerdigvacc. (%),Vacc.dækning påbegyndt vacc. (%)",
-                "DK,362158,180439,5841178,2.1,4.3"
+                "geografi"+_del+"Antal første vacc."+_del+"Antal faerdigvacc."+_del+"Antal borgere"+_del+"Vacc.dækning faerdigvacc. (%)"+_del+"Vacc.dækning påbegyndt vacc. (%)",
+                "DK"+_del+"362158"+_del+"180439"+_del+"5841178"+_del+"2.1"+_del+"4.3"
             };
             
             _sampleFilesVaccination.Add(new Tuple<string, string[]>("Vaccine_DB/Vaccinationsdaekning_nationalt.csv", todayVaccinationContent));
@@ -397,8 +402,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             _mockSSIStatisticsVaccinationRepository.Setup(x => x.GetEntryByDate(It.IsAny<DateTime>())).Returns(value: null);
             _sampleFilesVaccination[0] = new Tuple<string, string[]>(_sampleFilesVaccination[0].Item1, new string[]
             {
-                "geografi,Antal første vacc.,Antal faerdigvacc.,Antal borgere,Vacc.dækning faerdigvacc. (%),Vacc.dækning påbegyndt vacc. (%)",
-                "DK,unImportantValue,180439,5841178,2.1,4.3"
+                "geografi"+_del+"Antal første vacc."+_del+"Antal faerdigvacc."+_del+"Antal borgere"+_del+"Vacc.dækning faerdigvacc. (%)"+_del+"Vacc.dækning påbegyndt vacc. (%)",
+                "DK"+_del+"unImportantValue"+_del+"180439"+_del+"5841178"+_del+"2.1"+_del+"4.3"
             });
 
             using var zipInfos = CreateZipInfos();
@@ -415,8 +420,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             _mockSSIStatisticsVaccinationRepository.Setup(x => x.GetEntryByDate(It.IsAny<DateTime>())).Returns(value: null);
             _sampleFilesVaccination[0] = new Tuple<string, string[]>(_sampleFilesVaccination[0].Item1, new string[]
             {
-                "geografi,Antal første vacc.,Antal faerdigvacc.,Antal borgere,Vacc.dækning faerdigvacc. (%),Vacc.dækning påbegyndt vacc. (%)",
-                "DK,unImportantValue,180439,5841178,2.1,0.0"
+                "geografi"+_del+"Antal første vacc."+_del+"Antal faerdigvacc."+_del+"Antal borgere"+_del+"Vacc.dækning faerdigvacc. (%)"+_del+"Vacc.dækning påbegyndt vacc. (%)",
+                "DK"+_del+"unImportantValue"+_del+"180439"+_del+"5841178"+_del+"2.1"+_del+"0.0"
             });
 
             using var zipInfos = CreateZipInfos();
@@ -434,8 +439,8 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             _mockSSIStatisticsVaccinationRepository.Setup(x => x.GetEntryByDate(It.IsAny<DateTime>())).Returns(value: null);
             _sampleFilesVaccination[0] = new Tuple<string, string[]>(_sampleFilesVaccination[0].Item1, new string[]
             {
-                "geografi,Antal første vacc.,Antal faerdigvacc.,Antal borgere,Vacc.dækning faerdigvacc. (%),Vacc.dækning påbegyndt vacc. (%)",
-                "DK,unImportantValue,180439,5841178,0.0,4.3"
+                "geografi"+_del+"Antal første vacc."+_del+"Antal faerdigvacc."+_del+"Antal borgere"+_del+"Vacc.dækning faerdigvacc. (%)"+_del+"Vacc.dækning påbegyndt vacc. (%)",
+                "DK"+_del+"unImportantValue"+_del+"180439"+_del+"5841178"+_del+"0.0"+_del+"4.3"
             });
 
             using var zipInfos = CreateZipInfos();
