@@ -76,20 +76,6 @@ namespace DIGNDB.App.SmitteStop.API.Services
                 throw new ArgumentException(errorMessage);
             }
 
-            //Any ENIntervalNumber values from the same user are not unique
-            var parametersGroups = parameter.keys.GroupBy(k => k.rollingStart);
-            foreach (var group in parametersGroups)
-            {
-                if (group.Count() <= 1)
-                {
-                    continue;
-                }
-
-                var errorMessage = $"Incorrect intervals: {group.Count()} > 1";
-                logger.LogError(errorMessage);
-                throw new ArgumentException(errorMessage);
-            }
-
             //There are any gaps in the ENIntervalNumber values for a user
             //Any keys in the file have overlapping time windows
             if (parameter.keys.Any())
