@@ -42,14 +42,6 @@ namespace DIGNDB.App.SmitteStop.API.Services
         {
             var todaysDateUtcMidnight = DateTime.UtcNow.Date;
             var outdatedKeysDate = DateTime.UtcNow.Date.AddDays(-configuration.OutdatedKeysDayOffset);
-            //The period of time covered by the data file exceeds 14 days
-            if (parameter.keys.Count > configuration.OutdatedKeysDayOffset)
-            {
-                var errorMessage = $"Incorrect key count. {parameter.keys.Count} > {configuration.OutdatedKeysDayOffset}";
-                logger.LogError(errorMessage);
-                throw new ArgumentException(errorMessage);
-            }
-
             if (!ValidateForDuplicatedKeys(parameter.keys.Select(k => k.key).ToList()))
             {
                 throw new ArgumentException("Duplicate key values.");
