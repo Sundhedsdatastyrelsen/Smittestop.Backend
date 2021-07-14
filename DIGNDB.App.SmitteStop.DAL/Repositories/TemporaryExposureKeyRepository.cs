@@ -136,7 +136,7 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
             var retVal = TakeNextBatch(query, numberOfRecordToSkip, maxCount);
             var list = retVal.ToList();
 
-            LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload);
+            LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload, sources[0].ToString());
 
             return list;
         }
@@ -166,9 +166,9 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
         }
 
         private void LogKeysInformationList(List<TemporaryExposureKey> temporaryExposureKeys, Country dkCountry,
-            DateTime uploadedOnAndLater, bool logInformationKeyValueOnUpload = false)
+            DateTime uploadedOnAndLater, bool logInformationKeyValueOnUpload = false, string extraMsg = "No extra msg")
         {
-            _logger.LogInformation($"No. of keys uploaded to EFGS: {temporaryExposureKeys.Count}");
+            _logger.LogInformation($"No. of keys uploaded to EFGS: {temporaryExposureKeys.Count}, {uploadedOnAndLater} , {dkCountry}, {extraMsg}");
 
             foreach (var temporaryExposureKey in temporaryExposureKeys)
             {
