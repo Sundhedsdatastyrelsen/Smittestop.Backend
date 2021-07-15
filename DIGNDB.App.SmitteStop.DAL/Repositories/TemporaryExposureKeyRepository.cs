@@ -133,8 +133,24 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
                .OrderBy(c => c.CreatedOn)
                     .ThenBy(c => c.RollingStartNumber);
 
+            if (logInformationKeyValueOnUpload)
+            {
+                _logger.LogInformation($"query.count : {query.Count()}");
+                foreach (var key in query)
+                {
+                    var hexValue = ConvertToHexValue(key.KeyData);
+                    _logger.LogInformation($"{hexValue} : {key.KeyData}");
+                }
+            }
+
+
             var retVal = TakeNextBatch(query, numberOfRecordToSkip, maxCount);
             var list = retVal.ToList();
+
+            if (logInformationKeyValueOnUpload)
+            {
+                _logger.LogInformation($"List count : {list.Count}");
+            }
 
             LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload);
 
@@ -160,7 +176,7 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
                 var hexValue = ConvertToHexValue(temporaryExposureKey.KeyData);
                 if (logInformationKeyValueOnUpload)
                 {
-                    _logger.LogInformation($"Upload to EFGS key.KeyData: {hexValue}");
+                    //_logger.LogInformation($"Upload to EFGS key.KeyData: {hexValue}");
                 }
             }
         }
