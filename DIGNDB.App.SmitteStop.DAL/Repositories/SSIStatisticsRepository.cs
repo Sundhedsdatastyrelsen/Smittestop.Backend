@@ -40,7 +40,7 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
 
         public async Task<SSIStatistics> GetNewestEntryAsync()
         {
-            return (await GetAsync(orderBy: x => x.OrderByDescending(x => x.Date))).First();
+            return (await GetAsync(orderBy: x => x.OrderByDescending(x => x.Date))).FirstOrDefault();
         }
     }
 }

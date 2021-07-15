@@ -77,13 +77,28 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
             {
                 status = HealthStatus.Unhealthy;
                 data.Add("Directory for SSI statistics does not exist", directoryPath);
+
+                return await Task.FromResult(new HealthCheckResult(
+                    status,
+                    Description,
+                    data: data));
             }
 
             // Check latest file is from today
             var directory = new DirectoryInfo(directoryPath);
-            var latestFileInfo = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+            var latestFileInfo = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
+            if (latestFileInfo == null)
+            {
+                status = HealthStatus.Unhealthy;
+                data.Add($"SSI statistics file for today does not exist. Empty folder.", directoryPath);
+
+                return await Task.FromResult(new HealthCheckResult(
+                    status,
+                    Description,
+                    data: data));
+            }
             var today = DateTime.Today.ToString("yyyy_MM_dd");
-            if (!latestFileInfo.Name.Contains(today))
+            if (latestFileInfo.Name.Contains(today))
             {
                 status = HealthStatus.Unhealthy;
                 data.Add($"SSI statistics file for today does not exist. Latest file is {latestFileInfo.Name}", directoryPath);
@@ -94,6 +109,16 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
             {
                 // check infection numbers
                 var newestEntry = await _ssiIStatisticsRepository.GetNewestEntryAsync();
+                if (newestEntry == null)
+                {
+                    status = HealthStatus.Unhealthy;
+                    data.Add("SSI statistics infection entry in database does not exists", "CovidStatistics");
+
+                    return await Task.FromResult(new HealthCheckResult(
+                        status,
+                        Description,
+                        data: data));
+                }
                 var entryDate = newestEntry.Date;
                 var entryDateString = entryDate.ToString("yyyy_MM_dd");
                 if (!entryDateString.Contains(today))
