@@ -149,7 +149,7 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
 
             if (logInformationKeyValueOnUpload)
             {
-                _logger.LogInformation($"List count : {list.Count}");
+                _logger.LogInformation($"List count : {list.Count} : {numberOfRecordToSkip}, {maxCount}");
             }
 
             LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload);
@@ -256,6 +256,8 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
             {
                 throw new ArgumentException($"Incorrect argument batchSize= {batchSize}");
             }
+
+            _logger.LogInformation($"Upload to EFGS key.KeyData: {numberOfRecordsToSkip} : {batchSize}");
 
             return keys.Skip(numberOfRecordsToSkip).Take(batchSize);
         }
