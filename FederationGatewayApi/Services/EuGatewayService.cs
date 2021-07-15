@@ -96,7 +96,7 @@ namespace FederationGatewayApi.Services
                 }
 
                 ++stats.CurrentBatchNumber;
-                lastStatus = UploadNextBatch(batchSize, fromLastNumberOfDays);
+                lastStatus = UploadNextBatch(batchSize, fromLastNumberOfDays, logInformationKeyValueOnUpload);
 
                 stats.TotalKeysProcessed += lastStatus.KeysProcessed;
                 stats.TotalKeysSent += lastStatus.KeysSent;
@@ -114,7 +114,7 @@ namespace FederationGatewayApi.Services
             }
         }
 
-        private BatchStatus UploadNextBatch(int batchSize, int keyAgeLimitInDays)
+        private BatchStatus UploadNextBatch(int batchSize, int keyAgeLimitInDays, bool logInformationKeyValueOnUpload = false)
         {
             var lastSyncState = _settingsService.GetGatewayUploadState();
 
@@ -129,7 +129,8 @@ namespace FederationGatewayApi.Services
                   uploadedOnAndLater: uploadedOnAndAfter,
                   numberOfRecordToSkip: lastSyncState.NumberOfKeysProcessedFromTheLastCreationDate,
                   maxCount: batchSizePlusOne,
-                  new KeySource[] { KeySource.SmitteStopApiVersion2 });
+                  new KeySource[] { KeySource.SmitteStopApiVersion2 },
+                  logInformationKeyValueOnUpload);
 
             // Take all record uploaded after the date.
             var currBatchStatus = new BatchStatus { NextBatchExists = keyPackage.Count == batchSizePlusOne };
