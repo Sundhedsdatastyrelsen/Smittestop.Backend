@@ -98,10 +98,10 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
                     data: data));
             }
             var today = DateTime.Today.ToString("yyyy_MM_dd");
-            if (latestFileInfo.Name.Contains(today))
+            if (!latestFileInfo.Name.Contains(today))
             {
                 status = HealthStatus.Unhealthy;
-                data.Add($"SSI statistics file for today does not exist. Latest file is {latestFileInfo.Name}", directoryPath);
+                data.Add($"SSI statistics file for today does not exist. Latest file is {latestFileInfo.Name}. Today = {today}", directoryPath);
             }
             
             // Check numbers have been stored in database
