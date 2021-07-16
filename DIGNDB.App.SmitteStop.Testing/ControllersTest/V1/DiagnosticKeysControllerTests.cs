@@ -206,9 +206,9 @@ namespace DIGNDB.App.SmitteStop.Testing.ControllersTest.V1
             { HttpContext = MakeFakeContext(true, false).Object };
             var result = _controller.UploadDiagnosisKeys();
 
-            _temporaryExposureKeyRepository.Verify(mock =>
-                mock.AddTemporaryExposureKeys(It.Is<IList<TemporaryExposureKey>>(keys =>
-                    keys.All(key => key.KeySource == KeySource.SmitteStopApiVersion1))));
+            //_temporaryExposureKeyRepository.Verify(mock =>
+            //    mock.AddTemporaryExposureKeys(It.Is<IList<TemporaryExposureKey>>(keys =>
+            //        keys.All(key => key.KeySource == KeySource.SmitteStopApiVersion1))));
         }
 
         [Test]
