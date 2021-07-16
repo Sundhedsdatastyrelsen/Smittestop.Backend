@@ -135,6 +135,11 @@ namespace DIGNDB.App.SmitteStop.API
                         key.ReportType = ReportType.CONFIRMED_TEST;
                     }
 
+                    foreach (var newTemporaryExposureKey in newTemporaryExposureKeys)
+                    {
+                        var hexValue = BitConverter.ToString(newTemporaryExposureKey.KeyData);
+                        _logger.LogInformation($"newTemporaryExposureKeys : {hexValue} , {newTemporaryExposureKey.DaysSinceOnsetOfSymptoms} , {newTemporaryExposureKey.Id}");
+                    }
                     await _temporaryExposureKeyRepository.AddTemporaryExposureKeys(newTemporaryExposureKeys);
                 }
 

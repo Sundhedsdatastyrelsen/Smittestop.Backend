@@ -138,6 +138,7 @@ namespace FederationGatewayApi.Services
             keyPackage = keyPackage.Take(batchSize).ToList();
             currBatchStatus.KeysProcessed = keyPackage.Count;
             currBatchStatus.ProcessedSuccessfully = true;
+            Logger.LogInformation($"{keyPackage.Count} : {batchSizePlusOne} : {currBatchStatus.KeysProcessed}  ");
 
             if (!keyPackage.Any())
             {
@@ -160,6 +161,8 @@ namespace FederationGatewayApi.Services
                     .Where(k => k.DaysSinceOnsetOfSymptoms <= KeyValidator.DaysSinceOnsetOfSymptomsValidRangeMax)
                     .ToList();
             currBatchStatus.KeysToSend = filteredKeysForBatch.Count;
+
+            Logger.LogInformation($"{filteredKeysForBatch.Count} records picked.");
 
             var batch = CreateGatewayBatchFromKeys(filteredKeysForBatch);
             HandleUnsupportedRiskLevel(batch);
@@ -203,6 +206,11 @@ namespace FederationGatewayApi.Services
                 }
                 // save new sync status
                 _settingsService.SaveGatewaySyncState(currSyncState);
+                Logger.LogInformation($"{lastSyncState.CreationDateOfLastUploadedKey} : " +
+                                      $"{lastSyncState.NumberOfKeysProcessedFromTheLastCreationDate} : " +
+                                      $"{currBatchStatus.KeysProcessed} : " +
+                                      $"{lastSentKeyTicks} : " +
+                                      $"{oldestKeyFromPackage.CreatedOn.Ticks}  ");
             }
             else
             {
