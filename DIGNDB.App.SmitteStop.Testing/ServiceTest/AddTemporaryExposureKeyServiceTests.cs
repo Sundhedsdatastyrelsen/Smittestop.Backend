@@ -11,20 +11,53 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
 {
     [TestFixture]
     public class AddTemporaryExposureKeyServiceTests
     {
+        private Mock<ILogger<AddTemporaryExposureKeyService>> _logger;
         private readonly Mock<ITemporaryExposureKeyRepository> _temporaryExposureKeyRepositoryMock =
             new Mock<ITemporaryExposureKeyRepository>();
         private readonly List<TemporaryExposureKey> _exampleKeyList = new List<TemporaryExposureKey>
         {
-            new TemporaryExposureKey(),
-            new TemporaryExposureKey(),
-            new TemporaryExposureKey()
+            new TemporaryExposureKey{ KeyData = new byte[] { 1, 2, 3 }},
+            new TemporaryExposureKey{ KeyData = new byte[] { 2, 3, 1 }},
+            new TemporaryExposureKey{ KeyData = new byte[] { 3, 2, 1 }},
+            new TemporaryExposureKey{ KeyData = new byte[] { 3, 2, 1 }}
         };
+
+        [SetUp]
+        public void SetUp()
+        {
+            _logger = new Mock<ILogger<AddTemporaryExposureKeyService>>();
+        }
+
+        [Test]
+        public async Task Test_remove_duplicate_key()
+        {
+            var addTemporaryExposureKeyService = CreateTestObject();
+            var parameters = new TemporaryExposureKeyBatchDto
+            {
+                appPackageName = string.Empty,
+                visitedCountries = new List<string>
+                {
+                    "CR",
+                    "PL",
+                    "DK"
+                },
+                regions = new List<string>
+                {
+                    "dk"
+                }
+            };
+
+            var keysList = await addTemporaryExposureKeyService.GetFilteredKeysEntitiesFromDTO(parameters);
+            Assert.AreEqual(3, keysList.Count);
+
+        }
 
         [Test]
         public async Task TestCreateKeysInDatabase()
@@ -78,12 +111,13 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             configuration.Setup(c => c.GetSection(It.IsAny<string>())).Returns(new Mock<IConfigurationSection>().Object);
             var appSettingsMock = new Mock<IAppSettingsConfig>();
             appSettingsMock.Setup(mock => mock.Configuration).Returns(configuration.Object);
-
+            
             var addTemporaryExposureKeyService = new AddTemporaryExposureKeyService(
                 countryRepositoryMock.Object,
                 temporaryExposureKeyCountryRepositoryMock.Object,
                 exposureKeyMapperMock.Object,
-                _temporaryExposureKeyRepositoryMock.Object);
+                _temporaryExposureKeyRepositoryMock.Object,
+                _logger.Object);
 
             return addTemporaryExposureKeyService;
         }
