@@ -134,7 +134,7 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
                 if (!vaccineEntryDateString.Contains(today))
                 {
                     status = HealthStatus.Unhealthy;
-                    data.Add($"SSI statistics vaccine entry in database is not from today {DateTime.Now}", $"Latest entry is from {entryDate}");
+                    data.Add($"SSI statistics vaccine entry in database is not from today {DateTime.Now}", $"Latest entry is from {vaccineEntryDate}");
                 }
             }
             catch (Exception e)
