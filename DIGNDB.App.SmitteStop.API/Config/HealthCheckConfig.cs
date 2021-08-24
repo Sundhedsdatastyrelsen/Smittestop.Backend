@@ -26,6 +26,12 @@ namespace DIGNDB.APP.SmitteStop.API.Config
         public int ZipFilesCallAfter24Hour { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [Required(AllowEmptyStrings = false)]
+        public int ZipFilesCheckFilesDaysBefore { get; set; }
+
+        /// <summary>
         /// Appsettings value for api log file name
         /// </summary>
         [Required(AllowEmptyStrings = false)]
