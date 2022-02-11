@@ -159,22 +159,25 @@ namespace DIGNDB.App.SmitteStop.API.HealthChecks
                         status = HealthStatus.Unhealthy;
                         data.Add($"No zip file found in folder {directoryInfo.Name}", $"{directoryInfo.Name}");
                     }
-
-                    bool exists = false;
-                    for (int i = 0; i <= daysBefore; i++)
+                    else
                     {
-                        var day = DateTime.Today.AddDays(-i).ToString("yyyy-MM-dd");
-                        if (latestFile.Name.Contains(day))
+                        bool exists = false;
+                        for (int i = 0; i <= daysBefore; i++)
                         {
-                            exists = true;
+                            var day = DateTime.Today.AddDays(-i).ToString("yyyy-MM-dd");
+                            if (latestFile.Name.Contains(day))
+                            {
+                                exists = true;
+                            }
                         }
-                    }
-                    if (!exists)
-                    {
-                        status = HealthStatus.Unhealthy;
-                        data.Add(
-                            $"No zip files for last {daysBefore + 1} days has been written to folder {directoryInfo.Name}",
-                            $"Latest file is {latestFile.Name}");
+
+                        if (!exists)
+                        {
+                            status = HealthStatus.Unhealthy;
+                            data.Add(
+                                $"No zip files for last {daysBefore + 1} days has been written to folder {directoryInfo.Name}",
+                                $"Latest file is {latestFile.Name}");
+                        }
                     }
                 }
             }

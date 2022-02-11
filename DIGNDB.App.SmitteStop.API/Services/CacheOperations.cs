@@ -53,7 +53,7 @@ namespace DIGNDB.App.SmitteStop.API.Services
 
             try
             {
-                Monitor.TryEnter(_cacheLock, timeout, ref lockTaken);
+                Monitor.TryEnter(CacheOperationsV2._cacheLock, timeout, ref lockTaken);
                 if (lockTaken)
                 {
                     if (forceRefresh || !_memoryCache.TryGetValue(key, out result))
@@ -93,7 +93,7 @@ namespace DIGNDB.App.SmitteStop.API.Services
                 // Ensure that the lock is released.
                 if (lockTaken)
                 {
-                    Monitor.Exit(_cacheLock);
+                    Monitor.Exit(CacheOperationsV2._cacheLock);
                 }
             }
             return result;
