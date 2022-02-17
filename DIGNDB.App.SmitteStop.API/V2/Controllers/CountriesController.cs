@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using StackExchange.Profiling;
 
 namespace DIGNDB.App.SmitteStop.API.V2.Controllers
 {
@@ -50,7 +51,11 @@ namespace DIGNDB.App.SmitteStop.API.V2.Controllers
         {
             _logger.LogInformation($"{nameof(GetAllCountries)} endpoint called");
 
-            var countries = await _countryService.GetVisibleCountries();
+            IEnumerable<Country> countries;
+            using (MiniProfiler.Current.Step("Controller/GetCoutries"))
+            {
+                countries = await _countryService.GetVisibleCountries();
+            }
             _logger.LogInformation($"{nameof(GetAllCountries)} fetched successfully");
 
             var countriesDto = _mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(countries);

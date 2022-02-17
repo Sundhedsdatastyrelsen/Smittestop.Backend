@@ -82,6 +82,12 @@ namespace DIGNDB.App.SmitteStop.API
             services.AddControllers().AddControllersAsServices();
             services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
 
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+            });
+
             services.AddAuthentication(HealthCheckBasicAuthenticationHandler.HealthCheckBasicAuthenticationScheme).AddNoOperationAuthentication();
             // Configure jwt authentication and adding policy for health check endpoints
             services.AddAuthorization(options =>
@@ -256,6 +262,8 @@ namespace DIGNDB.App.SmitteStop.API
             app.UseAuthentication();
             // ...what you may access
             app.UseAuthorization();
+
+            app.UseMiniProfiler();
 
             app.UseEndpoints(endpoints =>
             {

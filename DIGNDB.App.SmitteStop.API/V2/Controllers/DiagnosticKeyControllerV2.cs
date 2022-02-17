@@ -12,6 +12,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using StackExchange.Profiling;
 using static System.String;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
@@ -148,7 +149,10 @@ namespace DIGNDB.App.SmitteStop.API
             {
                 _logger.LogInformation("UploadDiagnosisKeys endpoint called");
                 var parameters = await GetRequestParameters();
-                await _addTemporaryExposureKeyService.CreateKeysInDatabase(parameters);
+                using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys"))
+                {
+                    await _addTemporaryExposureKeyService.CreateKeysInDatabase(parameters);
+                }
 
                 _logger.LogInformation("Keys uploaded successfully");
                 return Ok();
@@ -189,43 +193,56 @@ namespace DIGNDB.App.SmitteStop.API
             _logger.LogInformation("DownloadDiagnosisKeysFile endpoint called");
             try
             {
-                ZipFileInfo packageInfo = _zipFileInfoService.CreateZipFileInfoFromPackageName(packageName);
-                string zipFilesFolder = _configuration["ZipFilesFolder"];
-
-                _logger.LogInformation("Package Date: " + packageInfo.PackageDate);
-
-                if (!IsDateValid(packageInfo.PackageDate, packageName))
+                using (MiniProfiler.Current.Step("Controller/DownloadKey"))
                 {
-                    return BadRequest("Package Date is invalid");
-                }
-                _logger.LogInformation($"Zip files folder: {zipFilesFolder}");
-                var packageExists = _zipFileInfoService.CheckIfPackageExists(packageInfo, zipFilesFolder);
-                if (packageExists)
-                {
-                    byte[] zipFileContent;
-                    var invalidateCache = false;
-                    if (Request.Headers.ContainsKey("Cache-Control") && Request.Headers["Cache-Control"] == "no-cache")
+                    ZipFileInfo packageInfo = _zipFileInfoService.CreateZipFileInfoFromPackageName(packageName);
+                    string zipFilesFolder = _configuration["ZipFilesFolder"];
+
+                    _logger.LogInformation("Package Date: " + packageInfo.PackageDate);
+
+                    if (!IsDateValid(packageInfo.PackageDate, packageName))
                     {
-                        invalidateCache = true;
-                        zipFileContent = await _cacheOperations.GetCacheValue(packageInfo, zipFilesFolder, invalidateCache);
+                        return BadRequest("Package Date is invalid");
+                    }
+
+                    _logger.LogInformation($"Zip files folder: {zipFilesFolder}");
+                    var packageExists = _zipFileInfoService.CheckIfPackageExists(packageInfo, zipFilesFolder);
+                    if (packageExists)
+                    {
+                        byte[] zipFileContent;
+                        var invalidateCache = false;
+                        using (MiniProfiler.Current.Step("Controller/DownloadKey"))
+                        {
+                            if (Request.Headers.ContainsKey("Cache-Control") &&
+                                Request.Headers["Cache-Control"] == "no-cache")
+                            {
+                                invalidateCache = true;
+                                zipFileContent =
+                                    await _cacheOperations.GetCacheValue(packageInfo, zipFilesFolder, invalidateCache);
+                            }
+                            else
+                            {
+                                zipFileContent =
+                                    await _cacheOperations.GetCacheValue(packageInfo, zipFilesFolder, invalidateCache);
+                            }
+                        }
+
+                        var currentBatchNumber = packageInfo.BatchNumber;
+                        packageInfo.BatchNumber++;
+                        var nextPackageExists = _zipFileInfoService.CheckIfPackageExists(packageInfo, zipFilesFolder);
+
+                        AddResponseHeader(nextPackageExists, currentBatchNumber);
+                        _logger.LogInformation("Zip package fetched successfully");
+                        using (MiniProfiler.Current.Step("Controller/DownloadKeyFile"))
+                        {
+                            return File(zipFileContent, System.Net.Mime.MediaTypeNames.Application.Zip);
+                        }
                     }
                     else
                     {
-                        zipFileContent = await _cacheOperations.GetCacheValue(packageInfo, zipFilesFolder, invalidateCache);
+                        _logger.LogInformation("Package does not exist");
+                        return NoContent();
                     }
-
-                    var currentBatchNumber = packageInfo.BatchNumber;
-                    packageInfo.BatchNumber++;
-                    var nextPackageExists = _zipFileInfoService.CheckIfPackageExists(packageInfo, zipFilesFolder);
-
-                    AddResponseHeader(nextPackageExists, currentBatchNumber);
-                    _logger.LogInformation("Zip package fetched successfully");
-                    return File(zipFileContent, System.Net.Mime.MediaTypeNames.Application.Zip);
-                }
-                else
-                {
-                    _logger.LogInformation("Package does not exist");
-                    return NoContent();
                 }
             }
             catch (FormatException e)

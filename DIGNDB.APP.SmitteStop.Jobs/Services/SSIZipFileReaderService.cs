@@ -16,6 +16,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using StackExchange.Profiling;
 
 namespace DIGNDB.APP.SmitteStop.Jobs.Services
 {
@@ -55,20 +56,31 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 _logger.LogInformation($"SSI statistics: started processing of the vaccination zip file. Newer zip file creation date: {zipArchivesInfo.DateInfection}");
                 _zipDateSSIVaccination = zipArchivesInfo.DateVaccination;
 
-                var vaccinationPercentages = GetDataFromVaccinationZipArchive(zipArchivesInfo.VaccinationArchive);
-                
-                _ssiStatisticsVaccinationRepository.RemoveEntriesOlderThan(DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
-
-                var ssiStatisticsVaccination = ValidateAndBuildDatabaseEntryFromSsiVaccinationData(vaccinationPercentages);
-
-                var existingSsiStatistics = _ssiStatisticsVaccinationRepository.GetEntryByDate(ssiStatisticsVaccination.Date);
-                if (existingSsiStatistics != null)
+                SSIStatisticsVaccination ssiStatisticsVaccination;
+                using (MiniProfiler.Current.Step("Job/SSI/Vaccine/Zip"))
                 {
-                    _logger.LogInformation($"SSI statistics: Entry already exists for this date. Updating the entry.");
-                    _ssiStatisticsVaccinationRepository.Delete(existingSsiStatistics);
+                    var vaccinationPercentages = GetDataFromVaccinationZipArchive(zipArchivesInfo.VaccinationArchive);
+
+                    _ssiStatisticsVaccinationRepository.RemoveEntriesOlderThan(
+                        DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
+
+                    ssiStatisticsVaccination = ValidateAndBuildDatabaseEntryFromSsiVaccinationData(vaccinationPercentages);
+
+                    var existingSsiStatistics =
+                        _ssiStatisticsVaccinationRepository.GetEntryByDate(ssiStatisticsVaccination.Date);
+                    if (existingSsiStatistics != null)
+                    {
+                        _logger.LogInformation(
+                            $"SSI statistics: Entry already exists for this date. Updating the entry.");
+                        _ssiStatisticsVaccinationRepository.Delete(existingSsiStatistics);
+                    }
                 }
 
-                _ssiStatisticsVaccinationRepository.CreateEntry(ssiStatisticsVaccination);
+                using (MiniProfiler.Current.Step("Job/SSI/Vaccine/Create"))
+                {
+                    _ssiStatisticsVaccinationRepository.CreateEntry(ssiStatisticsVaccination);
+                }
+
                 _logger.LogInformation(
                     $"SSI infection statistics: file parsing completed. Values inserted {ssiStatisticsVaccination.VaccinationFirst} and {ssiStatisticsVaccination.VaccinationSecond}");
             }
@@ -90,22 +102,31 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
                 }
 
                 _logger.LogInformation($"SSI statistics: started processing of the statistics zip file.");
-
-                var statistics = GetDataFromStstisticsZipArchive(zipArchivesInfo.StatisticsArchive);
-
-                _ssiStatisticsRepository.RemoveEntriesOlderThan(DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
-
-                var ssiStatistics = SumStatisticsByColumn(statistics.Statistics);
-
-                ssiStatistics.Date = zipArchivesInfo.DateInfection;
-                var existingSsiStatistics = _ssiStatisticsRepository.GetEntryByDate(ssiStatistics.Date);
-                if (existingSsiStatistics != null)
+                SSIStatistics ssiStatistics;
+                using (MiniProfiler.Current.Step("Job/SSI/Statistic/Zip"))
                 {
-                    _logger.LogInformation($"SSI statistics: Entry already exists for this date. Updating the entry.");
-                    _ssiStatisticsRepository.Delete(existingSsiStatistics);
+                    var statistics = GetDataFromStstisticsZipArchive(zipArchivesInfo.StatisticsArchive);
+
+                    _ssiStatisticsRepository.RemoveEntriesOlderThan(
+                        DateTime.UtcNow.Date.AddDays(-DeleteOldEntriesAfterDays));
+
+                    ssiStatistics = SumStatisticsByColumn(statistics.Statistics);
+
+                    ssiStatistics.Date = zipArchivesInfo.DateInfection;
+                    var existingSsiStatistics = _ssiStatisticsRepository.GetEntryByDate(ssiStatistics.Date);
+                    if (existingSsiStatistics != null)
+                    {
+                        _logger.LogInformation(
+                            $"SSI statistics: Entry already exists for this date. Updating the entry.");
+                        _ssiStatisticsRepository.Delete(existingSsiStatistics);
+                    }
                 }
 
-                _ssiStatisticsRepository.CreateEntry(ssiStatistics);
+                using (MiniProfiler.Current.Step("Job/SSI/Statistic/Create"))
+                {
+                    _ssiStatisticsRepository.CreateEntry(ssiStatistics);
+                }
+
                 _logger.LogInformation($"SSI infection statistics: file parsing completed");
             }
             catch (Exception e)

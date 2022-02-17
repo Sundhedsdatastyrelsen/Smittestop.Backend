@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using StackExchange.Profiling;
 
 namespace DIGNDB.App.SmitteStop.Core.Services
 {
@@ -30,10 +31,18 @@ namespace DIGNDB.App.SmitteStop.Core.Services
 
         public async Task CreateKeysInDatabase(TemporaryExposureKeyBatchDto parameters)
         {
-            var newTemporaryExposureKeys = await GetFilteredKeysEntitiesFromDTO(parameters);
+            IList<TemporaryExposureKey> newTemporaryExposureKeys;
+            using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys/CreateKeysInDatabase/keys"))
+            {
+                newTemporaryExposureKeys = await GetFilteredKeysEntitiesFromDTO(parameters);
+            }
+
             if (newTemporaryExposureKeys.Any())
             {
-                await CreateNewKeysInDatabase(parameters, newTemporaryExposureKeys);
+                using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys/CreateKeysInDatabase"))
+                {
+                    await CreateNewKeysInDatabase(parameters, newTemporaryExposureKeys);
+                }
             }
         }
 
@@ -105,9 +114,21 @@ namespace DIGNDB.App.SmitteStop.Core.Services
                 key.ReportType = ReportType.CONFIRMED_TEST;
             }
 
-            var visitedCountries = parameters.visitedCountries.FindAll(countryCode => countryCode.ToLower() != origin.Code.ToLower());
-            await _temporaryExposureKeyRepository.AddTemporaryExposureKeys(newTemporaryExposureKeys);
-            await CreateKeyCountryRelationships(visitedCountries, newTemporaryExposureKeys);
+            List<string> visitedCountries;
+            using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys/CreateKeysInDatabase/Find"))
+            {
+                visitedCountries = parameters.visitedCountries.FindAll(countryCode => countryCode.ToLower() != origin.Code.ToLower());
+            }
+
+            using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys/CreateKeysInDatabase/AddTemp"))
+            {
+                await _temporaryExposureKeyRepository.AddTemporaryExposureKeys(newTemporaryExposureKeys);
+            }
+
+            using (MiniProfiler.Current.Step("Controller/UploadDiagnosisKeys/CreateKeysInDatabase/CreateRelationship"))
+            {
+                await CreateKeyCountryRelationships(visitedCountries, newTemporaryExposureKeys);
+            }
         }
     }
 }

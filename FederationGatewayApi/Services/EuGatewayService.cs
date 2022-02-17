@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using StackExchange.Profiling;
 using TemporaryExposureKeyGatewayBatchProtoDto = FederationGatewayApi.Models.Proto.TemporaryExposureKeyGatewayBatchDto;
 using TemporaryExposureKeyGatewayDtoProto = FederationGatewayApi.Models.Proto.TemporaryExposureKeyGatewayDto;
 
@@ -96,7 +97,10 @@ namespace FederationGatewayApi.Services
                 }
 
                 ++stats.CurrentBatchNumber;
-                lastStatus = UploadNextBatch(batchSize, fromLastNumberOfDays, logInformationKeyValueOnUpload);
+                using (MiniProfiler.Current.Step("Service/UplaodKeys"))
+                {
+                    lastStatus = UploadNextBatch(batchSize, fromLastNumberOfDays, logInformationKeyValueOnUpload);
+                }
 
                 stats.TotalKeysProcessed += lastStatus.KeysProcessed;
                 stats.TotalKeysSent += lastStatus.KeysSent;
@@ -124,13 +128,17 @@ namespace FederationGatewayApi.Services
 
             int batchSizePlusOne = batchSize + 1; // if it will return n + 1 then there is at last one more records to send
 
-            // Get key package - collection of the records created (uploaded by mobile app) in the db after {uploadedOn}
-            IList<TemporaryExposureKey> keyPackage = _tempKeyRepository.GetDkTemporaryExposureKeysUploadedAfterTheDateForGatewayUpload(
-                  uploadedOnAndLater: uploadedOnAndAfter,
-                  numberOfRecordToSkip: lastSyncState.NumberOfKeysProcessedFromTheLastCreationDate,
-                  maxCount: batchSizePlusOne,
-                  new KeySource[] { KeySource.SmitteStopApiVersion2 },
-                  logInformationKeyValueOnUpload);
+            IList<TemporaryExposureKey> keyPackage;
+            using (MiniProfiler.Current.Step("Service/UploadKeys/Batch"))
+            {
+                // Get key package - collection of the records created (uploaded by mobile app) in the db after {uploadedOn}
+                keyPackage = _tempKeyRepository.GetDkTemporaryExposureKeysUploadedAfterTheDateForGatewayUpload(
+                    uploadedOnAndLater: uploadedOnAndAfter,
+                    numberOfRecordToSkip: lastSyncState.NumberOfKeysProcessedFromTheLastCreationDate,
+                    maxCount: batchSizePlusOne,
+                    new KeySource[] {KeySource.SmitteStopApiVersion2},
+                    logInformationKeyValueOnUpload);
+            }
 
             // Take all record uploaded after the date.
             var currBatchStatus = new BatchStatus { NextBatchExists = keyPackage.Count == batchSizePlusOne };
@@ -263,14 +271,22 @@ namespace FederationGatewayApi.Services
             var currentDownloadDate = startDate;
             while (currentDownloadDate <= todayDate)
             {
-                var lastProcessedBatchTag = DownloadKeysFromGatewayFromGivenDate(currentDownloadDate, lastSyncedBatchTag);
+                string lastProcessedBatchTag;
+                using (MiniProfiler.Current.Step("Service/DownloadKey"))
+                {
+                    lastProcessedBatchTag = DownloadKeysFromGatewayFromGivenDate(currentDownloadDate, lastSyncedBatchTag);
+                }
+
                 //save lastProcessedBatchTag
                 var currentState = new GatewayDownloadState()
                 {
                     LastSyncDate = currentDownloadDate.Ticks,
                     LastSyncedBatchTag = lastProcessedBatchTag
                 };
-                _settingsService.SaveGatewaySyncState(currentState);
+                using (MiniProfiler.Current.Step("Service/DownloadKey"))
+                {
+                    _settingsService.SaveGatewaySyncState(currentState);
+                }
 
                 currentDownloadDate = currentDownloadDate.AddDays(1);
                 lastSyncedBatchTag = null;
@@ -303,7 +319,10 @@ namespace FederationGatewayApi.Services
                     Logger.LogInformation($"|SmitteStop:DownloadKeysFromGateway| Calling endpoint: {requestUrl} with batchTag: {batchTag} (null for the first batch)");
                     try
                     {
-                        responseMessage = _gatewayHttpClient.SendAsync(requestMessage).Result;
+                        using (MiniProfiler.Current.Step("Service/DownloadKeyGivenDate"))
+                        {
+                            responseMessage = _gatewayHttpClient.SendAsync(requestMessage).Result;
+                        }
                     }
                     catch (Exception e)
                     {
