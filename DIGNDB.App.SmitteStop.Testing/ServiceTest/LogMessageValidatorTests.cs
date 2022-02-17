@@ -30,7 +30,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ServiceTest
             Assert.That(exception.Message, Is.EqualTo(expectExceptionMsg));
         }
 
-        [TestCase("10-04-2023")]
+        [TestCase("10-04-2025")]
         [TestCase("01-01-1970")]
         public void ValidateLogMobileMessageReportedTime_GiveInvalidDateTimeFormat_ShouldThrowError(string invalidDate)
         {
