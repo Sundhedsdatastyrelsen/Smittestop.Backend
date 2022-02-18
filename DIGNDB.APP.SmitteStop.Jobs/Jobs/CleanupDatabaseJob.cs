@@ -1,5 +1,6 @@
 ﻿using DIGNDB.App.SmitteStop.API.Services;
 using DIGNDB.APP.SmitteStop.Jobs.Jobs.Interfaces;
+using StackExchange.Profiling;
 
 namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
 {
@@ -13,12 +14,18 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
 
         public void ValidateKeysOnDatabase(int batchSize)
         {
-            _databaseKeysValidationService.FindAndRemoveInvalidKeys(batchSize);
+            using (MiniProfiler.Current.Step("Job/CleanDatabase/Keys"))
+            {
+                _databaseKeysValidationService.FindAndRemoveInvalidKeys(batchSize);
+            }
         }
 
         public void ValidateRollingStartOnDatabaseKeys(int batchSize)
         {
-            _databaseKeysValidationService.FindInvalidRollingStartEntrysAndUpdateEntry(batchSize);
+            using (MiniProfiler.Current.Step("Job/CleanDatabase/RollingStart"))
+            {
+                _databaseKeysValidationService.FindInvalidRollingStartEntrysAndUpdateEntry(batchSize);
+            }
         }
     }
 }

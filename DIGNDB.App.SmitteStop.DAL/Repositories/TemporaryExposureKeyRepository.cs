@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StackExchange.Profiling;
 using SortOrder = DIGNDB.App.SmitteStop.Domain.SortOrder;
 
 namespace DIGNDB.App.SmitteStop.DAL.Repositories
@@ -27,40 +28,59 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
 
         public async Task AddTemporaryExposureKey(TemporaryExposureKey temporaryExposureKey)
         {
-            _dbContext.TemporaryExposureKey.Add(temporaryExposureKey);
-            await _dbContext.SaveChangesAsync();
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/Add"))
+            {
+                _dbContext.TemporaryExposureKey.Add(temporaryExposureKey);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task AddTemporaryExposureKeys(IList<TemporaryExposureKey> temporaryExposureKeys)
         {
-            foreach (var key in temporaryExposureKeys)
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/AddList"))
             {
-                await _dbContext.AddAsync(key);
+                foreach (var key in temporaryExposureKeys)
+                {
+                    await _dbContext.AddAsync(key);
+                }
+
+                await _dbContext.SaveChangesAsync();
             }
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IList<TemporaryExposureKey>> GetAll()
         {
-            return await _dbContext.TemporaryExposureKey.ToListAsync();
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetAll"))
+            {
+                return await _dbContext.TemporaryExposureKey.ToListAsync();
+            }
         }
 
         public async Task<IList<byte[]>> GetAllKeyData()
         {
-            return await _dbContext.TemporaryExposureKey.Select(x => x.KeyData).ToListAsync();
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetAllKeys"))
+            {
+                return await _dbContext.TemporaryExposureKey.Select(x => x.KeyData).ToListAsync();
+            }
         }
 
         public async Task<byte[][]> GetKeysThatAlreadyExistsInDbAsync(byte[][] incomingKeys)
         {
-            return await _dbContext.TemporaryExposureKey.Where(u => incomingKeys.Contains(u.KeyData))
-                .Select(u => u.KeyData).ToArrayAsync();
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetAlreadyExists"))
+            {
+                return await _dbContext.TemporaryExposureKey.Where(u => incomingKeys.Contains(u.KeyData))
+                    .Select(u => u.KeyData).ToArrayAsync();
+            }
         }
 
         public int GetCountOfKeysByUploadedDayAndSource(DateTime uploadDate, KeySource keySource)
         {
-            return _dbContext.TemporaryExposureKey
-                .Where(key => key.CreatedOn.Date.CompareTo(uploadDate.Date) == 0)
-                .Count(key => key.KeySource == keySource);
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetCount"))
+            {
+                return _dbContext.TemporaryExposureKey
+                    .Where(key => key.CreatedOn.Date.CompareTo(uploadDate.Date) == 0)
+                    .Count(key => key.KeySource == keySource);
+            }
         }
 
         public IList<TemporaryExposureKey> GetAllKeysNextBatch(int numberOfRecordsToSkip, int batchSize)
@@ -70,11 +90,14 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
                 throw new ArgumentException($"Incorrect argument batchSize= {batchSize}");
             }
 
-            var query = _dbContext.TemporaryExposureKey
-                .OrderBy(c => c.CreatedOn)
-                .Skip(numberOfRecordsToSkip)
-                .Take(batchSize);
-            return query.ToList();
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetAllKeysB"))
+            {
+                var query = _dbContext.TemporaryExposureKey
+                    .OrderBy(c => c.CreatedOn)
+                    .Skip(numberOfRecordsToSkip)
+                    .Take(batchSize);
+                return query.ToList();
+            }
         }
 
         public IList<TemporaryExposureKey> GetAllKeysNextBatchWithOriginId(int numberOfRecordsToSkip, int batchSize)
@@ -84,12 +107,14 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
                 throw new ArgumentException($"Incorrect argument batchSize= {batchSize}");
             }
 
-            var query = _dbContext.TemporaryExposureKey
-                .OrderBy(c => c.CreatedOn)
-                .Skip(numberOfRecordsToSkip).Include(x => x.Origin)
-                .Take(batchSize);
-            var a = query.ToList();
-            return a;
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetAllBwO"))
+            {
+                var query = _dbContext.TemporaryExposureKey
+                    .OrderBy(c => c.CreatedOn)
+                    .Skip(numberOfRecordsToSkip).Include(x => x.Origin)
+                    .Take(batchSize).ToList();
+                return query;
+            }
         }
 
         public async Task<TemporaryExposureKey> GetById(Guid id)
@@ -104,7 +129,13 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
             {
                 _dbContext.Database.SetCommandTimeout(fetchTimeout);
             }
-            return _dbContext.TemporaryExposureKey.Where(x => x.Origin == dkCountry && x.CreatedOn.Date.CompareTo(uploadedOn.Date) == 0).OrderBy(x => x.Id).ToList();
+
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetTemporaryExposureKeysWithDkOrigin"))
+            {
+                return _dbContext.TemporaryExposureKey
+                    .Where(x => x.Origin == dkCountry && x.CreatedOn.Date.CompareTo(uploadedOn.Date) == 0)
+                    .OrderBy(x => x.Id).ToList();
+            }
         }
 
         public IList<TemporaryExposureKey> GetDkTemporaryExposureKeysUploadedAfterTheDateForGatewayUpload(
@@ -122,39 +153,42 @@ namespace DIGNDB.App.SmitteStop.DAL.Repositories
             var dkCountry = _countryRepository.GetDenmarkCountry();
 
             LogKeysInformation(_dbContext.TemporaryExposureKey, logInformationKeyValueOnUpload);
-
-            var query = _dbContext.TemporaryExposureKey
-               .Include(k => k.Origin)
-               .Where(k => k.Origin == dkCountry)
-               .Where(k => k.CreatedOn >= uploadedOnAndLater)
-               .Where(k => sources.Contains(k.KeySource))
-               .Include(k => k.VisitedCountries)
-                .ThenInclude(k => k.Country)
-               .OrderBy(c => c.CreatedOn)
+            using (MiniProfiler.Current.Step("Repo/ExposureKey/GetTemporaryExposureKeysWithDkOrigin"))
+            {
+                var query = _dbContext.TemporaryExposureKey
+                    .Include(k => k.Origin)
+                    .Where(k => k.Origin == dkCountry)
+                    .Where(k => k.CreatedOn >= uploadedOnAndLater)
+                    .Where(k => sources.Contains(k.KeySource))
+                    .Include(k => k.VisitedCountries)
+                    .ThenInclude(k => k.Country)
+                    .OrderBy(c => c.CreatedOn)
                     .ThenBy(c => c.RollingStartNumber);
 
-            if (logInformationKeyValueOnUpload)
-            {
-                _logger.LogInformation($"query.count : {query.Count()}");
-                foreach (var key in query)
+                if (logInformationKeyValueOnUpload)
                 {
-                    var hexValue = ConvertToHexValue(key.KeyData);
-                    _logger.LogInformation($"{hexValue} : {key.KeyData}");
+                    _logger.LogInformation($"query.count : {query.Count()}");
+                    foreach (var key in query)
+                    {
+                        var hexValue = ConvertToHexValue(key.KeyData);
+                        _logger.LogInformation($"{hexValue} : {key.KeyData}");
+                    }
                 }
+
+
+                var retVal = TakeNextBatch(query, numberOfRecordToSkip, maxCount);
+                var list = retVal.ToList();
+
+
+                if (logInformationKeyValueOnUpload)
+                {
+                    _logger.LogInformation($"List count : {list.Count} : {numberOfRecordToSkip}, {maxCount}");
+                }
+
+                LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload);
+
+                return list;
             }
-
-
-            var retVal = TakeNextBatch(query, numberOfRecordToSkip, maxCount);
-            var list = retVal.ToList();
-
-            if (logInformationKeyValueOnUpload)
-            {
-                _logger.LogInformation($"List count : {list.Count} : {numberOfRecordToSkip}, {maxCount}");
-            }
-
-            LogKeysInformationList(list, dkCountry, uploadedOnAndLater, logInformationKeyValueOnUpload);
-
-            return list;
         }
         
         public async Task<IList<TemporaryExposureKey>> GetNextBatchOfKeysWithRollingStartNumberThresholdAsync(long rollingStartNumberThreshold, int numberOfRecordsToSkip, int batchSize)

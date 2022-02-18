@@ -2,6 +2,7 @@
 using FederationGatewayApi.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
+using StackExchange.Profiling;
 
 namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
 {
@@ -22,9 +23,10 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
         {
             var startTime = DateTimeOffset.UtcNow;
             _logger.LogInformation($"# Starting Job : {nameof(UploadTemporaryExposureKeysUeGatewayJob)} started at {startTime}");
-
-            _euGatewayService.UploadKeysToTheGateway(uploadKeysAgeLimitInDays: _config.UploadKeysAgeLimitInDays, batchSize: _config.BatchSize, logInformationKeyValueOnUpload: _config.LogInformationKeyValueOnUpload);
-
+            using (MiniProfiler.Current.Step("Job/Upload"))
+            {
+                _euGatewayService.UploadKeysToTheGateway(uploadKeysAgeLimitInDays: _config.UploadKeysAgeLimitInDays, batchSize: _config.BatchSize, logInformationKeyValueOnUpload: _config.LogInformationKeyValueOnUpload);
+            }
             _logger.LogInformation($"# Job Ended : {nameof(UploadTemporaryExposureKeysUeGatewayJob)} started at {startTime}, ended at {DateTimeOffset.UtcNow}");
         }
     }

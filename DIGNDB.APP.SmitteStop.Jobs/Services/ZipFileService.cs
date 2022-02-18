@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Security;
+using StackExchange.Profiling;
 
 namespace DIGNDB.APP.SmitteStop.Jobs.Services
 {
@@ -34,8 +35,17 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Services
             {
                 CreateZipFilesDirectoriesIfNotExists(folderPath);
             }
-            HandleZipFilesForOrigin(ZipFileOrigin.Dk, lastCreationDate);
-            HandleZipFilesForOrigin(ZipFileOrigin.All, lastCreationDate);
+
+            using (MiniProfiler.Current.Step("Job/UpdateZipFiles/DK"))
+            {
+                HandleZipFilesForOrigin(ZipFileOrigin.Dk, lastCreationDate);
+            }
+
+            using (MiniProfiler.Current.Step("Job/UpdateZipFiles/All"))
+            {
+                HandleZipFilesForOrigin(ZipFileOrigin.All, lastCreationDate);
+            }
+
             CommitFiles();
         }
 

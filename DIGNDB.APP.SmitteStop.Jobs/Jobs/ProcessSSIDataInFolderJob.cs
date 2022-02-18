@@ -1,4 +1,5 @@
 ﻿using DIGNDB.App.SmitteStop.Jobs.Services.Interfaces;
+using StackExchange.Profiling;
 
 namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
 {
@@ -21,8 +22,18 @@ namespace DIGNDB.APP.SmitteStop.Jobs.Jobs
             //{
             //    return;   TODO  revert this comment when a client accept this change
             //}
-            _ssiZipFileReaderService.HandleSsiVaccinationZipArchive(zipArchives);
-            _ssiZipFileReaderService.HandleSsiStatisticsZipArchive(zipArchives);
+            using (MiniProfiler.Current.Step("Job/SSI"))
+            {
+                using (MiniProfiler.Current.Step("Job/SSI/Vaccine"))
+                {
+                    _ssiZipFileReaderService.HandleSsiVaccinationZipArchive(zipArchives);
+                }
+
+                using (MiniProfiler.Current.Step("Job/SSI/Statistic"))
+                {
+                    _ssiZipFileReaderService.HandleSsiStatisticsZipArchive(zipArchives);
+                }
+            }
         }
     }
 }
