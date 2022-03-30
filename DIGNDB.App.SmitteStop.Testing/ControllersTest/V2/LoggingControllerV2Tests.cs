@@ -71,7 +71,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ControllersTest.V2
             mockContext.Setup(c => c.Response).Returns(mockResponse.Object);
             return mockContext;
         }
-
+        [Ignore("Turn off a logs")]
         [Test]
         public void ReturnBadRequest_When_RequestBodyIsNotParsable()
         {
