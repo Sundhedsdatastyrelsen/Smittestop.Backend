@@ -48,39 +48,40 @@ namespace DIGNDB.App.SmitteStop.API.Controllers
         public async Task<IActionResult> UploadLoginInformation()
         {
             _logger.LogInformation("Login information upload called");
-            var requestBody = string.Empty;
-            bool isAdded;
-            string logEntry;
-            try
-            {
-                var loginInformation = await ReadRequestBody();
+            //var requestBody = string.Empty;
+            //bool isAdded;
+            //string logEntry;
+            //try
+            //{
+            //    var loginInformation = await ReadRequestBody();
                 
-                var entry = CreateEntry(loginInformation);
-                isAdded =_loginInformationRepository.CreateEntry(entry);
-                logEntry = entry.ToString();
-            }
-            catch (HttpResponseException ex)
-            {
-                _logger.LogError("Error when uploading login information: " + ex);
-                throw;
-            }
-            catch (JsonException ex)
-            {
-                _logger.LogError($"No login information found in body or unable to parse data. {ex} [Deserialized request]: {requestBody}");
-                return BadRequest("No login information found in body or unable to parse data");
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"An error occurred while trying to save login information: {ex}";
-                _logger.LogError(errorMessage);
-                return StatusCode(500);
-            }
+            //    var entry = CreateEntry(loginInformation);
+            //    isAdded =_loginInformationRepository.CreateEntry(entry);
+            //    logEntry = entry.ToString();
+            //}
+            //catch (HttpResponseException ex)
+            //{
+            //    _logger.LogError("Error when uploading login information: " + ex);
+            //    throw;
+            //}
+            //catch (JsonException ex)
+            //{
+            //    _logger.LogError($"No login information found in body or unable to parse data. {ex} [Deserialized request]: {requestBody}");
+            //    return BadRequest("No login information found in body or unable to parse data");
+            //}
+            //catch (Exception ex)
+            //{
+            //    var errorMessage = $"An error occurred while trying to save login information: {ex}";
+            //    _logger.LogError(errorMessage);
+            //    return StatusCode(500);
+            //}
 
-            var message = isAdded ? "Login information uploaded successfully. " + logEntry
-                                        : "Login information updated successfully. " + logEntry;
-            _logger.LogDebug(message);
+            //var message = isAdded ? "Login information uploaded successfully. " + logEntry
+            //                            : "Login information updated successfully. " + logEntry;
+            //_logger.LogDebug(message);
 
-            return Ok(message);
+            //return Ok(message);
+            return Ok();
         }
 
         private static LoginInformation CreateEntry(LoginInformationDto loginInformation)

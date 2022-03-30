@@ -63,32 +63,33 @@ namespace DIGNDB.App.SmitteStop.API
                 return Ok();
             }
 
-            _logger.LogDebug("LogMessage action invoked");
+            //_logger.LogDebug("LogMessage action invoked");
 
-            LogMessagesMobileCollection logMessagesMobileDeserialized;
-            var requestBody = string.Empty;
-            try
-            {
-                using (var reader = new StreamReader(HttpContext.Request.Body))
-                {
-                    requestBody = await reader.ReadToEndAsync();
-                }
-                logMessagesMobileDeserialized = JsonSerializer.Deserialize<LogMessagesMobileCollection>(requestBody, new JsonSerializerOptions { IgnoreNullValues = false });
-            }
-            catch (JsonException je)
-            {
-                _logger.LogError($"Deserializing Request.Body caused an error. [RequestBody]: {requestBody} [Message]: {je.Message} [Exception]: {je.StackTrace}");
-                return BadRequest();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Handling Request.Body cause an error. [RequestBody]: {requestBody} [Message]: {e.Message} [Exception]: {e.StackTrace}");
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            //LogMessagesMobileCollection logMessagesMobileDeserialized;
+            //var requestBody = string.Empty;
+            //try
+            //{
+            //    using (var reader = new StreamReader(HttpContext.Request.Body))
+            //    {
+            //        requestBody = await reader.ReadToEndAsync();
+            //    }
+            //    logMessagesMobileDeserialized = JsonSerializer.Deserialize<LogMessagesMobileCollection>(requestBody, new JsonSerializerOptions { IgnoreNullValues = false });
+            //}
+            //catch (JsonException je)
+            //{
+            //    _logger.LogError($"Deserializing Request.Body caused an error. [RequestBody]: {requestBody} [Message]: {je.Message} [Exception]: {je.StackTrace}");
+            //    return BadRequest();
+            //}
+            //catch (Exception e)
+            //{
+            //    _logger.LogError($"Handling Request.Body cause an error. [RequestBody]: {requestBody} [Message]: {e.Message} [Exception]: {e.StackTrace}");
+            //    return StatusCode(StatusCodes.Status500InternalServerError);
+            //}
 
-            var responseCode = SanitizeAndValidateLogMessages(logMessagesMobileDeserialized);
+            //var responseCode = SanitizeAndValidateLogMessages(logMessagesMobileDeserialized);
 
-            return StatusCode(responseCode);
+            //return StatusCode(responseCode);
+            return StatusCode(StatusCodes.Status200OK);
         }
 
         /// <summary>

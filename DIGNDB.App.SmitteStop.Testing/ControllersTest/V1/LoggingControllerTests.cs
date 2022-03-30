@@ -76,7 +76,7 @@ namespace DIGNDB.App.SmitteStop.Testing.ControllersTest.V1
 
         
 
-
+        [Ignore("Turn off a logs")]
         [Test]
         public void ReturnBadRequest_When_RequestBodyIsNotParsable()
         {
